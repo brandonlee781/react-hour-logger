@@ -19,6 +19,7 @@ export const DrawerHeader = styled.span`
   justify-content: space-between;
   align-items: center;
   height: ${sideNavWidth};
+  min-height: ${sideNavWidth};
   width: 100%;
   padding: 0 2rem;
   margin: 0 !important;
