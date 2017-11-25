@@ -10,7 +10,7 @@ describe('<HomeListItemNew/>', () => {
 
   beforeAll(() => {
     mount = createMount();
-    itemNew = mount(<HomeListItemNew/>);
+    itemNew = mount(<HomeListItemNew open={true}/>);
   });
 
   afterAll(() => {

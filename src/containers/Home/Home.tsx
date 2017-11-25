@@ -12,7 +12,7 @@ import {
 import { Link, LogStateType, ProjectStateType, StoreStateType } from '../../constants/types';
 import { changeHomeSelected } from '../../actions';
 
-import { HomeList, NavDrawer, LoadingSpinner } from '../../components';
+import { HomeList, NavDrawer, LoadingSpinner, HomeListItemNew } from '../../components';
 
 interface HomeProps {
   projects: ProjectStateType;
@@ -56,6 +56,7 @@ class HomeComponent extends React.Component<HomeProps & DispatchProps> {
             <HomeBodyHeader>
               <HomeBodyTitle>Recent Log Entries</HomeBodyTitle>
               <HomeAddIcon>+</HomeAddIcon>
+              <HomeListItemNew open={true} projects={this.props.projects.items}/>
             </HomeBodyHeader>
             <LoadingSpinner show={this.props.logs.isFetching}/>
             <HomeList logs={this.props.logs.filtered}/>
