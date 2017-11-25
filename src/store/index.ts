@@ -20,8 +20,8 @@ export const initialState: StoreStateType = {
   },
   ui: {
     drawerOpen: false,
-    homeDrawer: {
-      links: []
+    home: {
+      selected: ''
     }
   }
 };

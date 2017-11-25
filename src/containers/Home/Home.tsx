@@ -9,7 +9,8 @@ import {
   HomeBodyTitle,
   HomeAddIcon
 } from './Home.style';
-import { Link, LogStateType, ProjectStateType, StoreStateType } from '../../constants/types';
+import { Link, LogStateType, ProjectStateType, StoreStateType, Log } from '../../constants/types';
+import { filterHomeEntries, getHomeLinks } from '../../selectors';
 import { changeHomeSelected } from '../../actions';
 
 import { HomeList, NavDrawer, LoadingSpinner, HomeListItemNew } from '../../components';
@@ -19,6 +20,7 @@ interface HomeProps {
   logs: LogStateType;
   links: Link[];
   drawerOpen: boolean;
+  filteredLogs: Log[];
 }
 interface DispatchProps {
   changeHomeSelected: (payload: string) => Dispatch<void>;
@@ -28,8 +30,9 @@ const mapStateToProps = (state: StoreStateType) => {
   return {
     projects: state.projects,
     logs: state.logs,
-    links: state.ui.homeDrawer.links,
-    drawerOpen: state.ui.drawerOpen
+    links: getHomeLinks(state), 
+    drawerOpen: state.ui.drawerOpen,
+    filteredLogs: filterHomeEntries(state)
   };
 };
 
@@ -54,12 +57,12 @@ class HomeComponent extends React.Component<HomeProps & DispatchProps> {
         {(match) => (
           <HomeBody mobile={match}>
             <HomeBodyHeader>
-              <HomeBodyTitle>Recent Log Entries</HomeBodyTitle>
+              <HomeBodyTitle>{(this.props.links.filter(l => l.selected))[0].title}</HomeBodyTitle>
               <HomeAddIcon>+</HomeAddIcon>
-              <HomeListItemNew open={true} projects={this.props.projects.items}/>
+              <HomeListItemNew open={false} projects={this.props.projects.items}/>
             </HomeBodyHeader>
             <LoadingSpinner show={this.props.logs.isFetching}/>
-            <HomeList logs={this.props.logs.filtered}/>
+            <HomeList logs={this.props.filteredLogs}/>
           </HomeBody>
         )}
         </MediaQuery>

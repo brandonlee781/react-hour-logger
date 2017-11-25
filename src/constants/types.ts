@@ -43,8 +43,8 @@ export type LogStateType = LogState;
 
 interface UIState {
   drawerOpen: boolean;
-  homeDrawer: {
-    links: Link[],
+  home: {
+    selected: string;
   };
 }
 export type UIStateType = UIState;

@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import axios, { AxiosResponse } from 'axios';
 import { Project } from '../constants/types';
-import { setHomeDrawerLinks } from './ui';
+// import { setHomeDrawerLinks } from './ui';
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
 export const RECEIVE_PROJECTS_FAILED = 'RECEIVE_PROJECTS_FAILED';
@@ -41,7 +41,7 @@ export function fetchProjects() {
         },
       });
       dispatch(receieveProjects(res.data));
-      dispatch(setHomeDrawerLinks(res.data));
+      // dispatch(setHomeDrawerLinks(res.data));
     } catch (err) {
       console.error(err);
       dispatch(recieveProjectsFailed());

@@ -1,4 +1,4 @@
-import { Project, Link, ActionType } from '../constants/types';
+import { ActionType } from '../constants/types';
 import { Dispatch } from 'react-redux';
 import { filterLogs } from './logs';
 export const SCREEN_SIZE = 'SCREEN_SIZE';
@@ -6,20 +6,20 @@ export const SET_HOME_DRAWER = 'SET_HOME_DRAWER';
 export const SET_HOME_SELECTED = 'SET_HOME_SELECTED';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 
-export function setHomeDrawerLinks(projects: Project[]) {
-  const links: Link[] = projects.map((project: Project) => {
-    return {
-      id: project.name.toLowerCase(),
-      title: project.name,
-      icon: 'folder_open',
-      selected: false,
-    };
-  });
-  return {
-    type: SET_HOME_DRAWER,
-    payload: links
-  };
-}
+// export function setHomeDrawerLinks(projects: Project[]) {
+//   const links: Link[] = projects.map((project: Project) => {
+//     return {
+//       id: project._id,
+//       title: project.name,
+//       icon: 'folder_open',
+//       selected: false,
+//     };
+//   });
+//   return {
+//     type: SET_HOME_DRAWER,
+//     payload: links
+//   };
+// }
 
 export function setHomeDrawerSelected(id: string): ActionType<string> {
   return {

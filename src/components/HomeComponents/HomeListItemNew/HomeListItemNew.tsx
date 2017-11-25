@@ -14,7 +14,7 @@ import { Project } from '../../../constants/types';
 
 interface HomeListItemNewProps {
   open: boolean;
-  projects?: Project[];
+  projects: Project[];
 }
 
 interface HomeListItemNewState {
@@ -26,6 +26,8 @@ interface HomeListItemNewState {
 }
 
 export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeListItemNewState> {
+  baseState: HomeListItemNewState;
+
   constructor(props: HomeListItemNewProps) {
     super(props);
     this.state = {
@@ -35,6 +37,7 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
       endTime: '',
       notes: ''
     };
+    this.baseState = this.state;
     this.changeName = this.changeName.bind(this);
     this.changeDate = this.changeDate.bind(this);
     this.changeStartTime = this.changeStartTime.bind(this);
