@@ -1,25 +1,10 @@
 import { ActionType } from '../constants/types';
 import { Dispatch } from 'react-redux';
-import { filterLogs } from './logs';
 export const SCREEN_SIZE = 'SCREEN_SIZE';
 export const SET_HOME_DRAWER = 'SET_HOME_DRAWER';
 export const SET_HOME_SELECTED = 'SET_HOME_SELECTED';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
-
-// export function setHomeDrawerLinks(projects: Project[]) {
-//   const links: Link[] = projects.map((project: Project) => {
-//     return {
-//       id: project._id,
-//       title: project.name,
-//       icon: 'folder_open',
-//       selected: false,
-//     };
-//   });
-//   return {
-//     type: SET_HOME_DRAWER,
-//     payload: links
-//   };
-// }
+export const TOGGLE_NEW_LOG_FORM = 'TOGGLE_NEW_LOG_FORM';
 
 export function setHomeDrawerSelected(id: string): ActionType<string> {
   return {
@@ -34,9 +19,14 @@ export function toggleDrawer(): ActionType<string> {
   };
 }
 
+export function toggleNewLogForm(): ActionType<string> {
+  return {
+    type: TOGGLE_NEW_LOG_FORM,
+  };
+}
+
 export function changeHomeSelected(id: string): Dispatch<{}> {
   return function(dispatch: Dispatch<{}>): void {
     dispatch(setHomeDrawerSelected(id));
-    dispatch(filterLogs(id));
   };
 }

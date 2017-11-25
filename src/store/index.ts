@@ -15,13 +15,13 @@ export const initialState: StoreStateType = {
   logs: {
     isFetching: false,
     didFail: false,
-    items: [],
-    filtered: [],
+    items: []
   },
   ui: {
     drawerOpen: false,
     home: {
-      selected: ''
+      selected: '',
+      newLogFormShown: false,
     }
   }
 };

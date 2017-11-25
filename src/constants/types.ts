@@ -37,7 +37,6 @@ interface LogState {
   isFetching: boolean;
   didFail: boolean;
   items: Log[];
-  filtered: Log[];
 }
 export type LogStateType = LogState;
 
@@ -45,6 +44,7 @@ interface UIState {
   drawerOpen: boolean;
   home: {
     selected: string;
+    newLogFormShown: boolean;
   };
 }
 export type UIStateType = UIState;

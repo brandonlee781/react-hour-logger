@@ -11,7 +11,7 @@ import {
 } from './Home.style';
 import { Link, LogStateType, ProjectStateType, StoreStateType, Log } from '../../constants/types';
 import { filterHomeEntries, getHomeLinks } from '../../selectors';
-import { changeHomeSelected } from '../../actions';
+import { changeHomeSelected, toggleNewLogForm } from '../../actions';
 
 import { HomeList, NavDrawer, LoadingSpinner, HomeListItemNew } from '../../components';
 
@@ -20,10 +20,12 @@ interface HomeProps {
   logs: LogStateType;
   links: Link[];
   drawerOpen: boolean;
+  newLogFormShown: boolean;
   filteredLogs: Log[];
 }
 interface DispatchProps {
   changeHomeSelected: (payload: string) => Dispatch<void>;
+  toggleNewLogForm: () => void;
 }
 
 const mapStateToProps = (state: StoreStateType) => {
@@ -32,13 +34,15 @@ const mapStateToProps = (state: StoreStateType) => {
     logs: state.logs,
     links: getHomeLinks(state), 
     drawerOpen: state.ui.drawerOpen,
-    filteredLogs: filterHomeEntries(state)
+    newLogFormShown: state.ui.home.newLogFormShown,
+    filteredLogs: filterHomeEntries(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<StoreStateType>): DispatchProps => {
   return {
-    changeHomeSelected: (payload: string) => dispatch(changeHomeSelected(payload)) 
+    changeHomeSelected: (payload: string) => dispatch(changeHomeSelected(payload)),
+    toggleNewLogForm: () => dispatch(toggleNewLogForm())
   };
 };
 
@@ -58,8 +62,12 @@ class HomeComponent extends React.Component<HomeProps & DispatchProps> {
           <HomeBody mobile={match}>
             <HomeBodyHeader>
               <HomeBodyTitle>{(this.props.links.filter(l => l.selected))[0].title}</HomeBodyTitle>
-              <HomeAddIcon>+</HomeAddIcon>
-              <HomeListItemNew open={false} projects={this.props.projects.items}/>
+              <HomeAddIcon onClick={this.props.toggleNewLogForm}>+</HomeAddIcon>
+              <HomeListItemNew 
+                open={this.props.newLogFormShown} 
+                projects={this.props.projects.items}
+                toggle={this.props.toggleNewLogForm}
+              />
             </HomeBodyHeader>
             <LoadingSpinner show={this.props.logs.isFetching}/>
             <HomeList logs={this.props.filteredLogs}/>

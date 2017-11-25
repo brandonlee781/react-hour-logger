@@ -4,7 +4,6 @@ import { Log } from '../constants/types';
 export const REQUEST_LOGS = 'REQUEST_LOGS';
 export const RECEIVE_LOGS = 'RECEIVE_LOGS';
 export const RECEIVE_LOGS_FAILED = 'RECEIVE_LOGS_FAILED';
-export const FILTER_LOGS = 'FILTER_LOGS';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 const api = axios.create({
@@ -30,13 +29,6 @@ export function receiveLogs(logs: Log[]) {
 export function recieveLogsFailed() {
   return {
     type: RECEIVE_LOGS_FAILED,
-  };
-}
-
-export function filterLogs(filter: string) {
-  return {
-    type: FILTER_LOGS,
-    payload: filter,
   };
 }
 
