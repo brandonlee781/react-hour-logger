@@ -17,6 +17,7 @@ import {
   LogDetail,
   LogButton
 } from './HomeListItem.style';
+import * as moment from 'moment';
 
 type HomeListItemProps = Log;
 
@@ -27,19 +28,19 @@ export const HomeListItem = (props: HomeListItemProps) => (
       <LogDetail>
         <div>
           <FolderOpen/>
-          <span>{props.project}</span>
+          <span>{props.project.name}</span>
         </div>
         <div>
           <Event/>
-          <span>{props.date}</span>
+          <span>{moment(props.date, 'YYYY-MM-DD').format('ddd MMM DD')}</span>
         </div>
         <div>
           <AccessTime/>
-          <span>{props.startTime}</span>
+          <span>{moment(props.startTime, 'HH:mm:ss').format('hh:mm a')}</span>
         </div>
         <div>
           <AccessTime/>
-          <span>{props.endTime}</span>
+          <span>{moment(props.endTime, 'HH:mm:ss').format('hh:mm a')}</span>
         </div>
         <div>
           <Timelapse/>

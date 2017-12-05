@@ -4,5 +4,5 @@ import { HomeList } from './index';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<HomeList logs={[]} />, div);
+  ReactDOM.render(<HomeList logs={[]} loading={false} getMoreLogs={() => console.log}/>, div);
 });

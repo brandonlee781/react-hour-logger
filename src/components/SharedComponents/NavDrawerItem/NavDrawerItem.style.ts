@@ -13,6 +13,7 @@ export const ItemWrapper = styled(ListItem as any)`
       content:"";
       position:absolute; 
       right: 0;
+      top: calc(2.5rem - 10px);
       border-top: 10px solid transparent;
       border-bottom: 10px solid transparent;
       border-right: 10px solid #fff;

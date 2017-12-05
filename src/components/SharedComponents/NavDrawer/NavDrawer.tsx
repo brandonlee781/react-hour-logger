@@ -1,15 +1,14 @@
-import * as React from 'react';
-import MediaQuery from 'react-responsive';
 import List from 'material-ui/List';
-import { NavDrawerItem } from '../NavDrawerItem';
-import {
-  BaseDrawer,
-  DrawerHeader
-} from './NavDrawer.style';
-import { /*ActionType,*/ Link } from '../../../constants/types';
-import { sideNavWidth } from '../../../assets/styleVariables';
 import withStyles from 'material-ui/styles/withStyles';
+import * as React from 'react';
 import { Dispatch } from 'react-redux';
+import MediaQuery from 'react-responsive';
+
+import { sideNavWidth } from '../../../assets/styleVariables';
+import { Link } from '../../../constants/types';
+import { NavDrawerItem } from '../NavDrawerItem';
+import { BaseDrawer, DrawerHeader } from './NavDrawer.style';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 export interface NavDrawerProps {
   header: string;
@@ -32,32 +31,36 @@ const styles: DrawerClasses = {
   }
 };
 
-export const NavDrawerClass = (props: NavDrawerProps) => (
-    <MediaQuery minWidth={960}>
-      {(match) => (
-      <BaseDrawer
-        type={match ? 'permanent' : 'persistant'}
-        anchor="left"
-        classes={{
-          paperAnchorLeft: props.classes.paperAnchorLeft,
-        }} 
-        open={props.drawerOpen}
-      >
-        <DrawerHeader>
-          {props.header}
-        </DrawerHeader>
+export const NavDrawerClass = (props: NavDrawerProps) => ( 
+  <MediaQuery minWidth={960}>
+    {(match) => (
+    <BaseDrawer
+      type={match ? 'permanent' : 'persistant'}
+      anchor="left"
+      classes={{
+        paperAnchorLeft: props.classes.paperAnchorLeft,
+      }} 
+      open={props.drawerOpen}
+    >
+      <DrawerHeader>
+        {props.header}
+      </DrawerHeader>
+      {!props.linksLoading ? (
         <List disablePadding={true}>
           {props.links.map((link: Link) => (
-              <NavDrawerItem 
-                key={link.id} 
-                {...link} 
-                changeSelected={props.changeSelected}
-              />
+            <NavDrawerItem 
+              key={link.id} 
+              {...link} 
+              changeSelected={props.changeSelected}
+            />
           ))}
         </List>
-      </BaseDrawer>
+      ) : (
+        <LoadingSpinner show={true}/>
       )}
-    </MediaQuery>
+    </BaseDrawer>
+    )}
+  </MediaQuery>
 );
 
 export const NavDrawer = withStyles(styles)(NavDrawerClass);
