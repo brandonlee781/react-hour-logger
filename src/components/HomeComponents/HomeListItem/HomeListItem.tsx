@@ -19,7 +19,9 @@ import {
 } from './HomeListItem.style';
 import * as moment from 'moment';
 
-type HomeListItemProps = Log;
+interface HomeListItemProps extends Log {
+  deleteLog: (logId: string) => void;
+}
 
 export const HomeListItem = (props: HomeListItemProps) => (
   <LogEntry>
@@ -52,7 +54,7 @@ export const HomeListItem = (props: HomeListItemProps) => (
       <LogButton>
         <ModeEdit style={{fill: blue[400]}}/>
       </LogButton>
-      <LogButton>
+      <LogButton onClick={() => props.deleteLog(props.id)}>
         <Delete style={{fill: red[400]}}/>
       </LogButton>
     </div>

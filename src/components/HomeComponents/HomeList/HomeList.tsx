@@ -8,7 +8,8 @@ import { LoadingSpinner } from '../../SharedComponents/LoadingSpinner';
 interface HomeListProps {
   loading: boolean;
   logs: Log[];
-  getMoreLogs: () => void;
+  getMoreLogs: () => void; 
+  deleteLog: (logId: string) => void;
 }
 
 export const HomeList = (props: HomeListProps) => {
@@ -18,7 +19,7 @@ export const HomeList = (props: HomeListProps) => {
   return (
     <ListWrapper>
       {props.logs.map((log, ind) => (
-        <HomeListItem key={ind} {...log}/>
+        <HomeListItem key={ind} {...log} deleteLog={props.deleteLog}/>
       ))}
       <Button 
         raised={true}

@@ -14,24 +14,34 @@ interface HomeListItemNewProps {
   projects: Project[];
   toggle: () => void;
   currentProject: string;
+  createNewLog: (newLog: any) => void;
 }
 
 interface FormSectionProps {
   value?: string;
   handleChange: any;
   projects?: Project[];
+  error: boolean;
 }
 interface FormDateSectionProps {
   value: moment.Moment | string;
   handleChange: any;
+  error: boolean;
 }
 
 interface HomeListItemNewState {
   project: string;
-  date: moment.Moment | string;
-  startTime: moment.Moment | string;
-  endTime: moment.Moment | string;
-  notes: string;
+  date: moment.Moment;
+  startTime: moment.Moment;
+  endTime: moment.Moment;
+  note: string;
+  errors: {
+    project: boolean;
+    date: boolean;
+    startTime: boolean;
+    endTime: boolean;
+    note: boolean;
+  };
 }
 
 const ProjectSelect = (props: FormSectionProps) => (
@@ -49,6 +59,7 @@ const ProjectSelect = (props: FormSectionProps) => (
             autoWidth={true}
             name="project"
             input={<Input id="project-select"/>}
+            error={props.error}
           >
             <MenuItem value="">-- Select --</MenuItem>
             {props.projects.map((project, ind) => (
@@ -77,6 +88,7 @@ const DateInput = (props: FormDateSectionProps) => (
             value={props.value}
             onChange={(date: any) => props.handleChange(date, 'date')}
             style={{ marginTop: '16px' }}
+            error={props.error}
           />
         </FormControl>
       </Grid>
@@ -102,6 +114,7 @@ const StartTimeInput = (props: FormDateSectionProps) => (
             ampm={false}
             onChange={(time: any) => props.handleChange(time, 'startTime')}
             style={{ marginTop: '16px' }}
+            error={props.error}
           />
         </FormControl>
       </Grid>
@@ -127,6 +140,7 @@ const EndTimeInput = (props: FormDateSectionProps) => (
             ampm={false}
             onChange={(time: any) => props.handleChange(time, 'endTime')}
             style={{ marginTop: '16px' }}
+            error={props.error}
           />
         </FormControl>
       </Grid>
@@ -147,10 +161,8 @@ const NotesInput = (props: FormSectionProps) => (
             id="notes-input"
             type="texts"
             value={props.value}
-            onChange={(event: any) => props.handleChange(event, 'notes')}
-            inputProps={{
-              step: 15000
-            }}
+            onChange={(event: any) => props.handleChange(event, 'note')}
+            error={props.error}
           />
         </FormControl>
       </Grid>
@@ -165,13 +177,21 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
     super(props);
     this.state = {
       project: props.currentProject,
-      date: '',
-      startTime: '',
-      endTime: '',
-      notes: ''
+      date: null,
+      startTime: null,
+      endTime: null,
+      note: '',
+      errors: {
+        project: false,
+        date: false,
+        startTime: false,
+        endTime: false,
+        note: false
+      }
     };
     this.baseState = this.state;
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentWillReceiveProps(nextProps: any) {
     // You don't have to do this check first, but it can help prevent an unneeded render
@@ -188,6 +208,78 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
     } else {
       this.setState({ [prop]: event.target.value });
     }
+  }
+
+  handleSubmit = () => {
+    const errors = {
+      project: false,
+      date: false,
+      startTime: false,
+      endTime: false,
+      note: false
+    };
+    this.setState({ errors });
+    const validateDate = (date: moment.Moment): boolean => {
+      if (!date || !date.isValid()) {
+        errors.date = true;
+        this.setState({ errors });
+        return false;
+      }
+      return true;
+    };
+    const validateTimes = (startTime: moment.Moment, endTime: moment.Moment): boolean => {
+      if (!startTime || !startTime.isValid()) {
+        errors.startTime = true;
+        this.setState({ errors });
+        return false;
+      }
+      if (!endTime || !startTime.isValid()) {
+        errors.endTime = true;
+        this.setState({ errors });
+        return false;
+      }
+      if (!startTime.isBefore(endTime)) {
+        errors.startTime = true;
+        errors.endTime = true;
+        this.setState({ errors });
+        return false;
+      }
+      return true;
+    };
+    const validateProject = (project: string): boolean => {
+      if (!project) {
+        errors.project = true;
+        this.setState({ errors });
+        return false;
+      }
+      return true;
+    };
+    const validateNote = (note: string): boolean => {
+      if (!note) {
+        errors.note = true;
+        this.setState({ errors });
+        return false;
+      }
+      return true;
+    };
+
+    if (
+      validateProject(this.state.project) &&
+      validateDate(this.state.date) &&
+      validateTimes(this.state.startTime, this.state.endTime) &&
+      validateNote(this.state.note)
+    ) {
+      this.props.createNewLog({
+        date: this.state.date,
+        startTime: this.state.startTime,
+        endTime: this.state.endTime,
+        projectId: this.state.project,
+        note: this.state.note
+      });
+      this.resetState();
+      this.toggleMenu();
+    }
+
   }
 
   resetState = () => {
@@ -219,28 +311,33 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
               value={this.state.project} 
               handleChange={this.handleChange}
               projects={this.props.projects}
+              error={this.state.errors.project}
             />
             <DateInput
               value={this.state.date}
               handleChange={this.handleChange}
+              error={this.state.errors.date}
             />
             <StartTimeInput
               value={this.state.startTime}
               handleChange={this.handleChange}
+              error={this.state.errors.startTime}
             />
             <EndTimeInput
               value={this.state.endTime}
               handleChange={this.handleChange}
+              error={this.state.errors.endTime}
             />
             <NotesInput
-              value={this.state.notes}
+              value={this.state.note}
               handleChange={this.handleChange}
+              error={this.state.errors.note}
             />
           </Grid>
         </form>
         <MenuActions>
           <Button onClick={this.toggleMenu}>Cancel</Button>
-          <Button color="primary">Save</Button>
+          <Button color="primary" onClick={this.handleSubmit}>Save</Button>
         </MenuActions>
       </Popover>
     );

@@ -58,3 +58,46 @@ export const GET_ALL_PROJECTS = gql`
     }
   }
 `;
+
+export const CREATE_NEW_LOG = gql`
+  mutation CreateNewLog(
+    $date: String!,
+    $startTime: String!,
+    $endTime: String!,
+    $duration: Float!,
+    $projectId: String!,
+    $note: String!
+  ) {
+    createLog ( input: {
+      log: {
+        date: $date,
+        startTime: $startTime,
+        endTime: $endTime,
+        duration: $duration,
+        projectId: $projectId,
+        note: $note
+      }
+    }) {
+      log{
+        id,
+        date,
+        startTime,
+        endTime,
+        duration,
+        project{
+          id,
+          name
+        },
+        note 
+      }
+    }
+  }
+`;
+
+export const DELETE_LOG = gql`
+  mutation DeleteLog($logId: ID!) {
+    deleteLog(input: { id: $logId }) {
+      numberOfDeleted
+    }
+  }
+`;

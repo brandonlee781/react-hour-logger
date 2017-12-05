@@ -17,5 +17,5 @@ const itemProps = {
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<HomeListItem {...itemProps} />, div);
+  ReactDOM.render(<HomeListItem {...itemProps} deleteLog={console.log} />, div);
 });

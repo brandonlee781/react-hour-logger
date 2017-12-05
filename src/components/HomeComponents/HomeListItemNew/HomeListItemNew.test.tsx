@@ -16,6 +16,7 @@ describe('<HomeListItemNew/>', () => {
         projects={[]} 
         toggle={() => console.log('clicked')} 
         currentProject=""
+        createNewLog={console.log}
       />
     );
   });
