@@ -1,7 +1,7 @@
 import { mount, shallow } from 'enzyme';
 
 export interface Project {
-  _id: string;
+  id: string;
   createdAt: string;
   links: [string];
   name: string;
@@ -9,13 +9,18 @@ export interface Project {
   updatedAt: string;
 }
 
+interface LogProject {
+  id: string;
+  name: string;
+}
+
 export interface Log {
-  _id: string;
+  id: string;
   startTime: string;
   endTime: string;
   date: string;
   duration: number;
-  project: string;
+  project: LogProject;
   note?: string;
 }
 
@@ -24,6 +29,11 @@ export interface Link {
   id: string;
   title: string;
   selected: boolean;
+}
+
+interface ApolloState {
+  // tslint:disable-next-line:no-any
+  [key: string]: any;
 }
 
 interface ProjectState {
@@ -50,6 +60,7 @@ interface UIState {
 export type UIStateType = UIState;
 
 interface StoreState {
+  apollo: ApolloState;
   projects: ProjectState;
   logs: LogState;
   ui: UIState;

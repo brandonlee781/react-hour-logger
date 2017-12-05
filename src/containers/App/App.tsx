@@ -3,9 +3,9 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { toggleDrawer } from '../../actions';
+// import { connect } from 'react-redux';
+// import { Dispatch } from 'redux';
+// import { toggleDrawer } from '../../actions';
 // import MediaQuery from 'react-responsive';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui';
 import blue from 'material-ui/colors/blue';
@@ -17,6 +17,7 @@ import {
   Home,
   Projects,
   Invoices,
+  Login
 } from '../../containers';
 
 export const theme = createMuiTheme({
@@ -27,40 +28,38 @@ export const theme = createMuiTheme({
       500: '#E2624B'
     },
   },
-  text: {
-    primary: '#555'
-  }
 });
 
 interface AppProps {
 
 }
 
-interface DispatchProps {
-  toggleDrawer: () => void;
-}
+// interface DispatchProps {
+//   toggleDrawer: () => void;
+// }
 
-const mapStateToProps = () => {
-  return {};
-};
+// const mapStateToProps = () => {
+//   return {};
+// };
 
-const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps => {
-  return {
-    toggleDrawer: () => dispatch(toggleDrawer()),
-  };
-};
+// const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps => {
+//   return {
+//     toggleDrawer: () => dispatch(toggleDrawer()),
+//   };
+// };
 
-export class AppClass extends React.Component<AppProps & DispatchProps> {
+export class AppClass extends React.Component<AppProps> {
   render() {
     return (
       <Router>
         <MuiThemeProvider theme={theme}>
           <AppContainer>
-            <SideNav toggleDrawer={this.props.toggleDrawer}/>
+            <SideNav toggleDrawer={/*this.props.toggleDrawer*/() => console.log}/>
             <AppBody>
               <Route exact={true} path="/" component={Home}/>
               <Route path="/projects" component={Projects}/>
               <Route path="/invoices" component={Invoices}/>
+              <Route path="/login" component={Login}/>
             </AppBody>
           </AppContainer>
         </MuiThemeProvider>
@@ -69,4 +68,6 @@ export class AppClass extends React.Component<AppProps & DispatchProps> {
   }
 }
 
-export const App = connect(mapStateToProps, mapDispatchToProps)(AppClass);
+export const App = AppClass;
+
+// export const App = connect(mapStateToProps, mapDispatchToProps)(AppClass);

@@ -1,30 +1,13 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import { ReduxCache } from 'apollo-cache-redux';
+import { ApolloClient } from 'apollo-client';
+import { setContext } from 'apollo-link-context';
+import { onError } from 'apollo-link-error';
+import { createHttpLink } from 'apollo-link-http';
+import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import thunkMiddleware from 'redux-thunk';
 
 import rootReducer from '../reducers';
-import { fetchProjects, fetchLogs } from '../actions';
-import { StoreStateType } from '../constants/types';
-
-export const initialState: StoreStateType = {
-  projects: {
-    isFetching: false,
-    didFail: false,
-    items: []
-  },
-  logs: {
-    isFetching: false,
-    didFail: false,
-    items: []
-  },
-  ui: {
-    drawerOpen: false,
-    home: {
-      selected: '',
-      newLogFormShown: false,
-    }
-  }
-};
 
 export const store = createStore(
   rootReducer,
@@ -35,5 +18,32 @@ export const store = createStore(
   )
 );
 
-store.dispatch(fetchProjects());
-store.dispatch(fetchLogs());
+// tslint:disable:no-any
+const cache = new ReduxCache({ dataIdFromObject: (o: any) => o.id, }, store);
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3000/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = window.localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null,
+    }
+  };
+});
+
+const noAuthLink = onError(({ networkError }: any)  => {
+  if (networkError.statusCode === 401) {
+    window.location.href = '/login';
+  }
+});
+
+const authLinkMid = authLink.concat(noAuthLink);
+
+export const client = new ApolloClient({
+  link: authLinkMid.concat(httpLink),
+  cache
+});

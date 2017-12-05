@@ -1,16 +1,20 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import registerServiceWorker from './registerServiceWorker';
+import './index.css';
 import 'raf/polyfill';
 
+import * as React from 'react';
+import { ApolloProvider } from 'react-apollo';
+import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
 import { App } from './containers/App';
-import './index.css';
+import registerServiceWorker from './registerServiceWorker';
+import { client, store } from './store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </Provider>,
   document.getElementById('root') as HTMLElement
 );
