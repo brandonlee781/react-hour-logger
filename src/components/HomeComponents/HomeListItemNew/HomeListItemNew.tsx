@@ -1,40 +1,36 @@
 // tslint:disable:no-any
 import * as React from 'react';
-import { 
-  Popover, 
-  FormControl,
-  Select,
-  MenuItem,
-  Grid,
-  Button
-} from 'material-ui';
-import {
-  FolderOpen,
-  Event,
-  AccessTime,
-  Description,
-} from 'material-ui-icons';
-import Input, { InputLabel } from 'material-ui/Input'; 
-import { MenuHeading, MenuActions, IconGrid } from './HomeListItemNew.style';
+import * as moment from 'moment';
+import { Button, FormControl, Grid, MenuItem, Popover, Select } from 'material-ui';
+import { AccessTime, Description, Event, FolderOpen } from 'material-ui-icons';
+import Input, { InputLabel } from 'material-ui/Input';
+import { DatePicker, TimePicker } from 'material-ui-pickers';
+
 import { Project } from '../../../constants/types';
+import { IconGrid, MenuActions, MenuHeading } from './HomeListItemNew.style';
 
 interface HomeListItemNewProps {
   open: boolean;
   projects: Project[];
   toggle: () => void;
+  currentProject: string;
 }
 
 interface FormSectionProps {
-  value: string;
+  value?: string;
   handleChange: any;
   projects?: Project[];
+}
+interface FormDateSectionProps {
+  value: moment.Moment | string;
+  handleChange: any;
 }
 
 interface HomeListItemNewState {
   project: string;
-  date: string ;
-  startTime: string;
-  endTime: string;
+  date: moment.Moment | string;
+  startTime: moment.Moment | string;
+  endTime: moment.Moment | string;
   notes: string;
 }
 
@@ -49,17 +45,14 @@ const ProjectSelect = (props: FormSectionProps) => (
           <InputLabel htmlFor="project-select">Project</InputLabel>
           <Select
             value={props.value}
-            autoWidth={true}
-            input={
-              <Input 
-                id="project-select" 
-                value={props.value}
-              />
-            }
             onChange={(event) => props.handleChange(event, 'project')}
+            autoWidth={true}
+            name="project"
+            input={<Input id="project-select"/>}
           >
+            <MenuItem value="">-- Select --</MenuItem>
             {props.projects.map((project, ind) => (
-              <MenuItem key={ind} value={project.name}>{project.name}</MenuItem>
+              <MenuItem key={ind} value={project.id}>{project.name}</MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -68,7 +61,7 @@ const ProjectSelect = (props: FormSectionProps) => (
   </Grid>
 );
 
-const DateInput = (props: FormSectionProps) => (
+const DateInput = (props: FormDateSectionProps) => (
   <Grid item={true} xs={12} sm={6}>
     <Grid container={true} spacing={8}>
       <IconGrid item={true} xs={2}>
@@ -77,12 +70,13 @@ const DateInput = (props: FormSectionProps) => (
       <Grid item={true} xs={10}>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="date-input">Date</InputLabel>
-          <Input
+          <DatePicker
             id="date-input"
-            type="date"
             fullWidth={true}
+            invalidLabel={''}
             value={props.value}
             onChange={(date: any) => props.handleChange(date, 'date')}
+            style={{ marginTop: '16px' }}
           />
         </FormControl>
       </Grid>
@@ -90,7 +84,7 @@ const DateInput = (props: FormSectionProps) => (
   </Grid>
 );
 
-const StartTimeInput = (props: FormSectionProps) => (
+const StartTimeInput = (props: FormDateSectionProps) => (
   <Grid item={true} xs={12} sm={6}>
     <Grid container={true} spacing={8}>
       <IconGrid item={true} xs={2}>
@@ -99,14 +93,15 @@ const StartTimeInput = (props: FormSectionProps) => (
       <Grid item={true} xs={10}>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="start-input" required={true}>Start Time</InputLabel>
-          <Input
+          <TimePicker
             id="start-input"
-            type="time"
             value={props.value}
+            fullWidth={true}
+            invalidLabel={''}
+            format="HH:mm"
+            ampm={false}
             onChange={(time: any) => props.handleChange(time, 'startTime')}
-            inputProps={{
-              step: 15000
-            }}
+            style={{ marginTop: '16px' }}
           />
         </FormControl>
       </Grid>
@@ -114,7 +109,7 @@ const StartTimeInput = (props: FormSectionProps) => (
   </Grid>
 );
 
-const EndTimeInput = (props: FormSectionProps) => (
+const EndTimeInput = (props: FormDateSectionProps) => (
   <Grid item={true} xs={12} sm={6}>
     <Grid container={true} spacing={8}>
       <IconGrid item={true} xs={2}>
@@ -123,14 +118,15 @@ const EndTimeInput = (props: FormSectionProps) => (
       <Grid item={true} xs={10}>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="end-input" required={true}>End Time</InputLabel>
-          <Input
+          <TimePicker
             id="end-input"
-            type="time"
             value={props.value}
+            fullWidth={true}
+            invalidLabel={''}
+            format="HH:mm"
+            ampm={false}
             onChange={(time: any) => props.handleChange(time, 'endTime')}
-            inputProps={{
-              step: 15000
-            }}
+            style={{ marginTop: '16px' }}
           />
         </FormControl>
       </Grid>
@@ -168,7 +164,7 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
   constructor(props: HomeListItemNewProps) {
     super(props);
     this.state = {
-      project: '',
+      project: props.currentProject,
       date: '',
       startTime: '',
       endTime: '',
@@ -177,9 +173,21 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
     this.baseState = this.state;
     this.handleChange = this.handleChange.bind(this);
   }
+  componentWillReceiveProps(nextProps: any) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.project !== this.state.project) {
+      this.setState({ project: nextProps.currentProject });
+    }
+  }
 
   handleChange = (event: any, prop: any) => {
-    this.setState({ [prop]: event.target.value });
+    if (prop === 'date') {
+      this.setState({ [prop]: event });
+    } else if (prop === 'startTime' || prop === 'endTime') {
+      this.setState({ [prop]: event });
+    } else {
+      this.setState({ [prop]: event.target.value });
+    }
   }
 
   resetState = () => {
@@ -187,24 +195,25 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
   }
 
   toggleMenu = () => {
+    this.resetState();
     this.props.toggle();
-    this.resetState.bind(this);
   }
 
   render() {
     return (
       <Popover
         open={this.props.open}
-        // anchorPosition={{ top: 100, right: 100 }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
-        }}
+        anchorPosition={{ top: 0, left: (window.innerWidth - 500) }}
+        anchorReference="anchorPosition"
+        // anchorOrigin={{
+        //   vertical: 'top',
+        //   horizontal: 'center'
+        // }}
       >
         <MenuHeading>
           <span>New Log Entry</span>
         </MenuHeading>
-        <form style={{ minWidth: '400px', padding: '8px' }}>
+        <form style={{ width: '500px', padding: '8px' }}>
           <Grid container={true} spacing={8} style={{ padding: '16px' }}>
             <ProjectSelect 
               value={this.state.project} 

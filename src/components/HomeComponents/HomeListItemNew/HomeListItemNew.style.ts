@@ -27,5 +27,6 @@ export const IconGrid = styled(Grid as any)`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+  height: 56px; 
 `;

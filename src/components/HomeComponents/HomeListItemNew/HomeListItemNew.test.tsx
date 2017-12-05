@@ -10,7 +10,14 @@ describe('<HomeListItemNew/>', () => {
 
   beforeAll(() => {
     mount = createMount();
-    itemNew = mount(<HomeListItemNew open={true} projects={[]} toggle={() => console.log('clicked')}/>);
+    itemNew = mount(
+      <HomeListItemNew 
+        open={true} 
+        projects={[]} 
+        toggle={() => console.log('clicked')} 
+        currentProject=""
+      />
+    );
   });
 
   afterAll(() => {
