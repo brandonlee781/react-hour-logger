@@ -3,9 +3,9 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import { Dispatch } from 'redux';
-// import { toggleDrawer } from '../../actions';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { toggleDrawer } from '../../actions';
 // import MediaQuery from 'react-responsive';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui';
 import blue from 'material-ui/colors/blue';
@@ -31,30 +31,29 @@ export const theme = createMuiTheme({
 });
 
 interface AppProps {
-
 }
 
-// interface DispatchProps {
-//   toggleDrawer: () => void;
-// }
+interface DispatchProps {
+  toggleDrawer: () => void;
+}
 
-// const mapStateToProps = () => {
-//   return {};
-// };
+const mapStateToProps = () => {
+  return {};
+};
 
-// const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps => {
-//   return {
-//     toggleDrawer: () => dispatch(toggleDrawer()),
-//   };
-// };
+const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps => {
+  return {
+    toggleDrawer: () => dispatch(toggleDrawer()),
+  };
+};
 
-export class AppClass extends React.Component<AppProps> {
+export class AppClass extends React.Component<AppProps & DispatchProps> {
   render() {
     return (
       <Router>
         <MuiThemeProvider theme={theme}>
           <AppContainer>
-            <SideNav toggleDrawer={/*this.props.toggleDrawer*/() => console.log}/>
+            <SideNav toggleDrawer={this.props.toggleDrawer}/>
             <AppBody>
               <Route exact={true} path="/" component={Home}/>
               <Route path="/projects" component={Projects}/>
@@ -68,6 +67,6 @@ export class AppClass extends React.Component<AppProps> {
   }
 }
 
-export const App = AppClass;
+// export const App = AppClass;
 
-// export const App = connect(mapStateToProps, mapDispatchToProps)(AppClass);
+export const App = connect(mapStateToProps, mapDispatchToProps)(AppClass);
