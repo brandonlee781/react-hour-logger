@@ -36,7 +36,7 @@ class LoginComponent extends React.Component<Props, State> {
 
   submitLogin = async (): Promise<void> => {
     console.log('submitted');
-    const res = await axios.post('http://localhost:3000/login', {
+    const res = await axios.post('https://www.branlee.me/api/login', {
       email: this.state.email,
       password: this.state.password
     });
