@@ -14,7 +14,7 @@ import {
   GET_ALL_PROJECTS, 
   CREATE_NEW_LOG, 
   DELETE_LOG 
-} from '../../queries';
+} from '../../constants/queries';
 import { HomeAddIcon, HomeBody, HomeBodyHeader, HomeBodyTitle, HomeContainer } from './Home.style';
 const QUERY_LIMIT = 50;
 interface Result<T> {

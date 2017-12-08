@@ -263,6 +263,12 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-table@^6.7.0":
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-6.7.0.tgz#4a8bcd6a98276912738d4d2f18719557a476a329"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.0.18", "@types/react@^16.0.23":
   version "16.0.25"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.25.tgz#bf696b83fe480c5e0eff4335ee39ebc95884a1ed"
@@ -5294,7 +5300,7 @@ material-ui-pickers@^1.0.0-beta.7:
     babel-helpers "^6.24.1"
     moment-range "^3.0.3"
 
-material-ui@^1.0.0-beta.21:
+material-ui@^1.0.0-beta.22:
   version "1.0.0-beta.22"
   resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-1.0.0-beta.22.tgz#04e719f33230ec9eab2dd1361b44509f3ec4d98b"
   dependencies:
@@ -6850,6 +6856,12 @@ react-style-proptype@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-style-proptype/-/react-style-proptype-3.1.0.tgz#c8912fc13460f5b0c1ec1114c729d535b52b8073"
   dependencies:
     prop-types "^15.5.4"
+
+react-table@^6.7.4:
+  version "6.7.4"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.7.4.tgz#cd23e15d437034bf2374e9c8d343e1b4e1960e4f"
+  dependencies:
+    classnames "^2.2.5"
 
 react-test-renderer@^16.0.0-0:
   version "16.1.1"
