@@ -7,3 +7,13 @@ body {
   font-family: 'Roboto', sans-serif;
   color: #2c3e50;
 }
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+@media screen {
+  .no-screen {
+    display: none !important;
+  }
+}
