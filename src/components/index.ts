@@ -7,6 +7,11 @@ export { HomeListItem } from './HomeComponents/HomeListItem';
 export { HomeListItemNew } from './HomeComponents/HomeListItemNew';
 
 // Invoice Components
+export { InvoiceHeader } from './InvoiceComponents/InvoiceHeader';
+export { InvoiceDocument } from './InvoiceComponents/InvoiceDocument';
+export { InvoiceDocumentDetails } from './InvoiceComponents/InvoiceDocumentDetails';
+export { InvoiceTable } from './InvoiceComponents/InvoiceTable';
+export { InvoiceNewForm } from './InvoiceComponents/InvoiceNewForm';
 
 // Project Components
 
