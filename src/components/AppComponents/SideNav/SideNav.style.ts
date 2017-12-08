@@ -11,6 +11,7 @@ export const SideNavContainer = styled.div`
   width: ${sideNavWidth};
   height: 100vh;
   position: fixed;
+  border-right: 2px solid #2196F3;
   background-color: ${colors.background};
   z-index: 1501;
 `;

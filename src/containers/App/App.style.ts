@@ -9,6 +9,9 @@ export const AppContainer = styled.div`
 export const AppBody = styled.div`
   width: 100%;
   margin-left: ${sideNavWidth}; 
+  @media print {
+    margin-left: 0;
+  }
 `;
 
 export const AppHeader = styled.div`

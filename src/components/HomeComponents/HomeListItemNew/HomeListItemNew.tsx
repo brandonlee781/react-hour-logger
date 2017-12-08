@@ -297,10 +297,6 @@ export class HomeListItemNew extends React.Component<HomeListItemNewProps, HomeL
         open={this.props.open}
         anchorPosition={{ top: 0, left: (window.innerWidth - 500) }}
         anchorReference="anchorPosition"
-        // anchorOrigin={{
-        //   vertical: 'top',
-        //   horizontal: 'center'
-        // }}
       >
         <MenuHeading>
           <span>New Log Entry</span>

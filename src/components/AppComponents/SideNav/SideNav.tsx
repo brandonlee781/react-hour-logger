@@ -17,7 +17,7 @@ interface SideNavProps {
 export class SideNav extends React.Component<SideNavProps, {}> {
   render() {
     return (
-      <SideNavContainer style={{borderRight: '2px solid #2196F3'}}>
+      <SideNavContainer className="no-print">
         <MediaQuery maxWidth={960}>
           <MenuButton 
             raised={true} 

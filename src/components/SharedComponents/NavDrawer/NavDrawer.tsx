@@ -31,7 +31,7 @@ const styles: DrawerClasses = {
   }
 };
 
-export const NavDrawerClass = (props: NavDrawerProps) => ( 
+export const NavDrawerClass = (props: NavDrawerProps) => (
   <MediaQuery minWidth={960}>
     {(match) => (
     <BaseDrawer
@@ -41,6 +41,7 @@ export const NavDrawerClass = (props: NavDrawerProps) => (
         paperAnchorLeft: props.classes.paperAnchorLeft,
       }} 
       open={props.drawerOpen}
+      className="no-print"
     >
       <DrawerHeader>
         {props.header}
