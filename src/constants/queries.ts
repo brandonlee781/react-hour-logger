@@ -159,7 +159,7 @@ export const GET_LOGS_BY_DATE = gql`
 export const CREATE_NEW_INVOICE = gql`
   mutation CreateNewInvoice(
     $date: String!
-    $hours: Int!
+    $hours: Float!
     $rate: Int!
     $logs: [ID!]!
   ) {

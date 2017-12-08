@@ -28,21 +28,26 @@ export class SideNav extends React.Component<SideNavProps, {}> {
           </MenuButton>
         </MediaQuery>
         <SideNavButton 
-          component={(props: {}) => <SideNavLink {...props} exact={true} to="/" activeClassName="nav-item-active"/>}
+          component={(props: {}) => <SideNavLink 
+            {...props} 
+            exact={true} 
+            to="/work/" 
+            activeClassName="nav-item-active"
+          />}
         >
           <SideNavIcon>home</SideNavIcon>
           <SideNavLabel>Home</SideNavLabel>
         </SideNavButton>
 
         <SideNavButton 
-          component={(props: {}) => <SideNavLink {...props} to="/projects" activeClassName="nav-item-active"/>}
+          component={(props: {}) => <SideNavLink {...props} to="/work/projects" activeClassName="nav-item-active"/>}
         >
           <SideNavIcon>assignment</SideNavIcon>
           <SideNavLabel>Projects</SideNavLabel>
         </SideNavButton>
 
         <SideNavButton 
-          component={(props: {}) => <SideNavLink {...props} to="/invoices" activeClassName="nav-item-active"/>}
+          component={(props: {}) => <SideNavLink {...props} to="/work/invoices" activeClassName="nav-item-active"/>}
         >
           <SideNavIcon>receipt</SideNavIcon>
           <SideNavLabel>Invoices</SideNavLabel>

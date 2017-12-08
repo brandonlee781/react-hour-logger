@@ -55,10 +55,10 @@ export class AppClass extends React.Component<AppProps & DispatchProps> {
           <AppContainer>
             <SideNav toggleDrawer={this.props.toggleDrawer}/>
             <AppBody>
-              <Route exact={true} path="/" component={Home}/>
-              <Route path="/projects" component={Projects}/>
-              <Route path="/invoices" component={Invoices}/>
-              <Route path="/login" component={Login}/>
+              <Route exact={true} path="/work/" component={Home}/>
+              <Route path="/work/projects" component={Projects}/>
+              <Route path="/work/invoices" component={Invoices}/>
+              <Route path="/work/login" component={Login}/>
             </AppBody>
           </AppContainer>
         </MuiThemeProvider>

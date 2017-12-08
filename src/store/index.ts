@@ -36,8 +36,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const noAuthLink = onError(({ networkError }: any)  => {
-  if (networkError.statusCode === 401) {
-    window.location.href = '/login';
+  if (networkError && networkError.statusCode === 401) {
+    window.location.href = '/work/login';
   }
 });
 

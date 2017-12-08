@@ -7,7 +7,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import { App } from './containers/App';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 import { client, store } from './store';
 
 ReactDOM.render(
@@ -18,4 +18,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root') as HTMLElement
 );
-registerServiceWorker();
+// registerServiceWorker();

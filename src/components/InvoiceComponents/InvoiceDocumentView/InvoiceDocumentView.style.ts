@@ -10,7 +10,7 @@ const flexRowBet = `
 export const ViewWrapper = styled.div`
   width: 100%;
   height: 100%;
-  padding: 8px;
+  padding: 8px 8px 50px 8px;
 `;
 
 export const InvoiceHeader = styled.div`
