@@ -31,6 +31,15 @@ export interface Link {
   selected: boolean;
 }
 
+export interface Invoice {
+  id: string;
+  number: number;
+  hours: number;
+  rate: number;
+  date: string;
+  logs: Log[];
+}
+
 interface ApolloState {
   // tslint:disable-next-line:no-any
   [key: string]: any;
@@ -56,6 +65,13 @@ interface UIState {
     selected: string;
     newLogFormShown: boolean;
   };
+  invoice: {
+    selected: string;
+    tab: 'hours' | 'invoice';
+    newInvoiceFormShown: boolean;
+    start: string;
+    end: string;
+  };
 }
 export type UIStateType = UIState;
 
@@ -72,6 +88,13 @@ interface Action<T> {
   payload?: T;
 }
 export type ActionType<T> = Action<T>;
+
+export interface Result<T> {
+  error: Error;
+  loading: boolean;
+  items: T[];
+  fetchMore?: () => void;
+}
 
 type enzMount = typeof mount;
 export interface Mount extends enzMount {
