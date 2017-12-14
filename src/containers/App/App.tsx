@@ -6,6 +6,8 @@ import {
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { toggleDrawer } from '../../actions';
+import { client } from '../../store';
+import { RANDOM_DONT_BE_A } from '../../constants/queries';
 // import MediaQuery from 'react-responsive';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui';
 import blue from 'material-ui/colors/blue';
@@ -47,7 +49,23 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps => {
   };
 };
 
+interface Response {
+  randomDontBeA: {
+    dontBeA: {
+      phrase: string;
+    }
+  };
+}
+
 export class AppClass extends React.Component<AppProps & DispatchProps> {
+  async componentWillMount() {
+    try {
+      const response = await client.query<Response>({ query: RANDOM_DONT_BE_A });
+      document.title = response.data.randomDontBeA.dontBeA.phrase;
+    } catch (err) {
+      console.error(err);
+    }
+  }
   render() {
     return (
       <Router>

@@ -193,3 +193,13 @@ export const CREATE_NEW_INVOICE = gql`
     }
   }
 `;
+
+export const RANDOM_DONT_BE_A = gql`
+  query RandomDontBeA {
+    randomDontBeA{
+      dontBeA{
+        phrase
+      }
+    }
+  }
+`;
