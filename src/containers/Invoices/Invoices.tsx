@@ -6,7 +6,19 @@ import MediaQuery from 'react-responsive';
 import { Dispatch } from 'redux';
 import * as moment from 'moment';
 
-import { GET_ALL_INVOICE, GET_LOGS_BY_DATE, CREATE_NEW_INVOICE } from '../../constants/queries';
+import { 
+  ActionType, 
+  Invoice, 
+  Link, 
+  StoreStateType, 
+  Log, 
+  Result, 
+  GET_ALL_INVOICE, 
+  GET_LOGS_BY_DATE, 
+  CREATE_NEW_INVOICE,
+  QUERY_LIMIT,
+} from '../../constants';
+
 import { 
   changeInvoiceSelected, 
   setInvoiceTab, 
@@ -15,29 +27,31 @@ import {
   toggleNewInvoiceForm,
   clearNewInvoice,
 } from '../../actions';
-import { InvoiceDocument, InvoiceTable, NavDrawer, InvoiceHeader, InvoiceNewForm } from '../../components';
-import { ActionType, Invoice, Link, StoreStateType, Log, Result } from '../../constants/types';
+
+import { 
+  InvoiceDocument, 
+  InvoiceTable, 
+  NavDrawer, 
+  InvoiceHeader, 
+  InvoiceNewForm, 
+} from '../../components';
 import { InvoiceBody, InvoiceContainer, InvoiceTab } from './Invoices.style';
 
 interface ApolloProps {
-  invoices?: Result<Invoice>;
-  links?: Result<Link>;
-  selectedInvoice?: Invoice;
-  newInvoice?: {
-    error: Error;
-    loading: boolean;
-    invoice: Invoice;
-  };
-  createNewInvoice?: (newInvoice: NewInvoiceData) => void;
+  invoices: Result<Invoice[]>;
+  links: Result<Link[]>;
+  selectedInvoice: Invoice;
+  newInvoice: Result<Invoice>;
+  createNewInvoice: (newInvoice: Partial<Invoice>) => void;
 }
 
 interface ReduxProps {
-  drawerOpen?: boolean;
-  selected?: string;
-  newInvoiceFormShown?: boolean;
-  tab?: string;
-  start?: string;
-  end?: string;
+  drawerOpen: boolean;
+  selected: string;
+  newInvoiceFormShown: boolean;
+  tab: string;
+  start: string;
+  end: string;
 }
 const mapStateToProps = (state: StoreStateType): ReduxProps => {
   return {
@@ -51,13 +65,13 @@ const mapStateToProps = (state: StoreStateType): ReduxProps => {
 };
 
 interface DispatchProps {
-  changeInvoiceSelected?: (payload: string) => Dispatch<void>;
-  setInvoiceTab?: (tab: string) => ActionType<string>;
-  setInvoiceFilter?: (key: FilterKey, date: string) => ActionType<{}>;
-  toggleNewInvoiceForm?: () => ActionType<{}>;
-  clearNewInvoice?: () => Dispatch<void>;
+  changeInvoiceSelected: (payload: string) => Dispatch<void>;
+  setInvoiceTab: (tab: string) => ActionType<string>;
+  setInvoiceFilter: (key: FilterKey, date: string) => ActionType<{}>;
+  toggleNewInvoiceForm: () => ActionType<{}>;
+  clearNewInvoice: () => Dispatch<void>;
 }
-const mapDispatchToProps = (dispatch: Dispatch<StoreStateType>): DispatchProps => {
+export const mapDispatchToProps = (dispatch: Dispatch<StoreStateType>): DispatchProps => {
   return {
     changeInvoiceSelected: (payload: string) => dispatch(changeInvoiceSelected(payload)),
     setInvoiceTab: (tab: string) => dispatch(setInvoiceTab(tab)),
@@ -67,11 +81,11 @@ const mapDispatchToProps = (dispatch: Dispatch<StoreStateType>): DispatchProps =
   };
 };
 
-type Props = ApolloProps & ReduxProps & DispatchProps;
+export type Props = ApolloProps & ReduxProps & DispatchProps;
 
 export class InvoicesComponent extends React.Component<Props> {
 
-  downloadCsv = (invoice: Invoice) => {
+  downloadCsv = (invoice: Invoice): void => {
     let formattedDate = moment(invoice.date, 'YYYY-MM-DD').format('MMMDD');
     let csv = 'Date,StartTime,EndTime,Duration,Project,Note\n';
     invoice.logs.forEach(row => {
@@ -85,33 +99,26 @@ export class InvoicesComponent extends React.Component<Props> {
     hiddenEl.click();
   }
 
-  downloadPdf = () => {
+  downloadPdf = (): void => {
     window.print();
   }
 
-  createInvoice = () => {
-    this.props.createNewInvoice(this.props.newInvoice.invoice);
+  createInvoice = (): void => {
+    this.props.createNewInvoice(this.props.newInvoice.data);
   }
 
   render() {
-    const { links, tab, selectedInvoice, newInvoice, start, end } = this.props;
+    const { links, tab, selectedInvoice, newInvoice } = this.props;
     return (
       <InvoiceContainer>
         <NavDrawer
           header="Invoices"
           drawerOpen={this.props.drawerOpen}
-          links={links.items}
+          links={links.data}
           linksLoading={links.loading}
           changeSelected={this.props.changeInvoiceSelected}
         />
-        <InvoiceNewForm 
-          open={this.props.newInvoiceFormShown}
-          toggleMenu={this.props.toggleNewInvoiceForm}
-          clear={this.props.clearNewInvoice}
-          setInvoiceFilter={this.props.setInvoiceFilter}
-          start={start}
-          end={end}
-        />
+        <InvoiceNewForm {...this.props}/>
         <MediaQuery minWidth={960}>
           {(match) => (
             <InvoiceBody mobile={match}>
@@ -140,11 +147,11 @@ export class InvoicesComponent extends React.Component<Props> {
 
               { tab === 'hours' &&
                 newInvoice && !newInvoice.loading &&
-                <InvoiceTable invoice={newInvoice.invoice}/>
+                <InvoiceTable invoice={newInvoice.data}/>
               }
               { tab === 'invoice' &&
                 newInvoice && !newInvoice.loading &&
-                <InvoiceDocument invoice={newInvoice.invoice}/>
+                <InvoiceDocument invoice={newInvoice.data}/>
               }
             </InvoiceBody>
           )}
@@ -155,14 +162,15 @@ export class InvoicesComponent extends React.Component<Props> {
 }
 
 interface Response {
-  allInvoices: {
+  allInvoices?: {
     invoices: Invoice[]
   };
   allLogsByDates?: {
     logs: Log[]
   };
 }
-const invoiceRedux = connect(mapStateToProps, mapDispatchToProps);
+export const invoiceRedux = connect(mapStateToProps, mapDispatchToProps);
+
 const getInvoices = graphql<Response, Props>(GET_ALL_INVOICE, {
   props: ({ ownProps, data: { loading, error, allInvoices } }) => {
     if (!loading) {
@@ -170,13 +178,13 @@ const getInvoices = graphql<Response, Props>(GET_ALL_INVOICE, {
         invoices: {
           error,
           loading,
-          items: allInvoices.invoices
+          data: allInvoices.invoices
         },
         selectedInvoice: allInvoices.invoices.filter(i => i.id === ownProps.selected)[0],
         links: {
           error,
           loading,
-          items: [
+          data: [
             {
               id: '',
               title: 'Create New Invoice',
@@ -199,7 +207,6 @@ const getInvoices = graphql<Response, Props>(GET_ALL_INVOICE, {
         invoices: {
           loading
         },
-        selectedInvoice: null,
         links: {
           loading
         }
@@ -213,7 +220,7 @@ const getLogsByDate = graphql<Response, Props>(GET_LOGS_BY_DATE, {
       variables: {
         start,
         end,
-        limit: 100,
+        limit: QUERY_LIMIT,
         offset: 0
       }
     };
@@ -226,7 +233,6 @@ const getLogsByDate = graphql<Response, Props>(GET_LOGS_BY_DATE, {
           error,
           loading,
           invoice: {
-            id: null,
             date: ownProps.end,
             rate: 25,
             hours: allLogsByDates.logs.map(l => l.duration).reduce((a, b) => a + b),
@@ -237,23 +243,15 @@ const getLogsByDate = graphql<Response, Props>(GET_LOGS_BY_DATE, {
     } else {
       return {
         newInvoice: {
-          error,
           loading,
-          invoice: null
         }
       };
     }
   }
 });
-interface NewInvoiceData {
-  date: string;
-  rate: number;
-  hours: number;
-  logs: Log[];
-}
 const createInvoiceMutation = graphql<Response, Props>(CREATE_NEW_INVOICE, {
   props: ({ ownProps, mutate}) => ({
-    createNewInvoice: (newLog: NewInvoiceData) => mutate({
+    createNewInvoice: (newLog: Partial<Invoice>) => mutate({
       variables: {
         date: newLog.date,
         rate: newLog.rate,
