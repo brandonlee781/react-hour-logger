@@ -22,7 +22,7 @@ export const store = createStore(
 const cache = new ReduxCache({ dataIdFromObject: (o: any) => o.id, }, store);
 
 const httpLink = createHttpLink({
-  uri: 'https://www.branlee.me/api/graphql',
+  uri: process.env.REACT_APP_API_LINK + '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
