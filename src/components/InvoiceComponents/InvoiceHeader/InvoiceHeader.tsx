@@ -4,8 +4,8 @@ import { InvoiceHeaderWrapper, InvoiceTitle, InvoiceIconButton } from './Invoice
 import { Create, FilterList, FileDownload, Print } from 'material-ui-icons';
 
 export interface Props {
-  invoices?: Result<Invoice>;
-  links?: Result<Link>;
+  invoices?: Result<Invoice[]>;
+  links?: Result<Link[]>;
   selectedInvoice?: Invoice;
   newInvoice: boolean;
   tab?: string;
@@ -19,17 +19,21 @@ export const InvoiceHeader = (props: Props) => (
     <InvoiceTitle>
       { props.invoices.loading ?
         'Create New Invoice' :
-        (props.links.items.filter(l => l.selected))[0].title
+        (props.links.data.filter(l => l.selected))[0].title
       }
     </InvoiceTitle>
     <div>
       { !props.selectedInvoice && 
-        <InvoiceIconButton onClick={props.toggleNewInvoiceForm}>
+        <InvoiceIconButton
+          id="toggleInvoiceFormButton"
+          onClick={props.toggleNewInvoiceForm}
+        >
           <FilterList/>
         </InvoiceIconButton>
       }
       { !props.selectedInvoice && props.newInvoice &&
-        <InvoiceIconButton 
+        <InvoiceIconButton
+          id="saveInvoiceButton"
           color="primary"
           onClick={props.create}
         >
@@ -38,14 +42,18 @@ export const InvoiceHeader = (props: Props) => (
       }
     </div>
     { props.selectedInvoice && props.tab === 'hours' &&
-      <InvoiceIconButton 
-        onClick={() => props.downloadCsv(props.invoices.items.filter(i => i.id === props.selectedInvoice.id)[0])}
+      <InvoiceIconButton
+        id="downloadCsvButton"
+        onClick={() => props.downloadCsv(props.invoices.data.filter(i => i.id === props.selectedInvoice.id)[0])}
       >
         <FileDownload/>
       </InvoiceIconButton>
     }
     { props.selectedInvoice && props.tab === 'invoice' &&
-      <InvoiceIconButton onClick={() => window.print()}>
+      <InvoiceIconButton
+        id="printPdfButton"
+        onClick={() => window.print()}
+      >
         <Print/>
       </InvoiceIconButton>
     }

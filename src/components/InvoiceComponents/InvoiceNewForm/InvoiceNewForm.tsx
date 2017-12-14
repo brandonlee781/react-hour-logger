@@ -8,17 +8,17 @@ import { DatePicker } from 'material-ui-pickers';
 import { ActionType } from '../../../constants/types';
 
 export interface Props {
-  open: boolean;
+  newInvoiceFormShown: boolean;
   start: string;
   end: string;
-  toggleMenu: () => void;
+  toggleNewInvoiceForm: () => void;
   setInvoiceFilter: (key: FilterKey, date: string) => ActionType<{}>;
-  clear: () => void;
+  clearNewInvoice: () => void;
 }
 
 export const InvoiceNewForm = (props: Props) => (
   <Popover
-    open={props.open}
+    open={props.newInvoiceFormShown}
     anchorPosition={{ top: 0, left: (window.innerWidth - 500) }}
     anchorReference="anchorPosition"
   >
@@ -54,8 +54,8 @@ export const InvoiceNewForm = (props: Props) => (
         </Grid>
       </Grid>
     <MenuActions>
-      <Button color="accent" onClick={props.clear}>Clear</Button>
-      <Button onClick={props.toggleMenu}>Close</Button>
+      <Button color="accent" onClick={props.clearNewInvoice}>Clear</Button>
+      <Button onClick={props.toggleNewInvoiceForm}>Close</Button>
     </MenuActions>
   </Popover>
 );

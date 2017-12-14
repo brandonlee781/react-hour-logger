@@ -8,15 +8,18 @@ import { RouterProps } from 'react-router';
 
 import { changeHomeSelected, toggleNewLogForm } from '../../actions';
 import { HomeList, HomeListItemNew, NavDrawer } from '../../components';
-import { Link, Log, Project, StoreStateType } from '../../constants/types';
 import { 
+  Link, 
+  Log, 
+  Project, 
+  StoreStateType, 
   GET_HOME_LOGS, 
   GET_ALL_PROJECTS, 
   CREATE_NEW_LOG, 
-  DELETE_LOG 
-} from '../../constants/queries';
+  DELETE_LOG,
+  QUERY_LIMIT,
+} from '../../constants';
 import { HomeAddIcon, HomeBody, HomeBodyHeader, HomeBodyTitle, HomeContainer } from './Home.style';
-const QUERY_LIMIT = 50;
 interface Result<T> {
   error: Error;
   loading: boolean;
