@@ -92,7 +92,7 @@ export type ActionType<T> = Action<T>;
 export interface Result<T> {
   error: Error;
   loading: boolean;
-  items: T[];
+  data: T;
   fetchMore?: () => void;
 }
 
