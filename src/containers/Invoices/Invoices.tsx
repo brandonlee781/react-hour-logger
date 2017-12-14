@@ -232,7 +232,7 @@ const getLogsByDate = graphql<Response, Props>(GET_LOGS_BY_DATE, {
         newInvoice: {
           error,
           loading,
-          invoice: {
+          data: {
             date: ownProps.end,
             rate: 25,
             hours: allLogsByDates.logs.map(l => l.duration).reduce((a, b) => a + b),
@@ -244,6 +244,7 @@ const getLogsByDate = graphql<Response, Props>(GET_LOGS_BY_DATE, {
       return {
         newInvoice: {
           loading,
+          data: null,
         }
       };
     }
