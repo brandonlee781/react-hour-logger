@@ -1,5 +1,4 @@
 import styled, { StyledFunction } from 'styled-components';
-import { Tab } from 'material-ui/Tabs';
 
 export const InvoiceContainer = styled.div`
   display: flex;
@@ -19,10 +18,4 @@ export const InvoiceBody = bodyDiv`
   @media print {
     margin-left: 0;
   }
-`;
-
-// tslint:disable-next-line:no-any
-export const InvoiceTab = styled(Tab as any)`
-  max-width: 1000px !important;
-  width: 50%;
 `;

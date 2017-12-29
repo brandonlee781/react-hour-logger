@@ -1,4 +1,3 @@
-import { Tabs } from 'material-ui';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
@@ -29,13 +28,14 @@ import {
 } from '../../actions';
 
 import { 
-  InvoiceDocument, 
-  InvoiceTable, 
   NavDrawer, 
   InvoiceHeader, 
   InvoiceNewForm, 
+  SelectedInvoice,
+  NewInvoice,
+  NoInvoice,
 } from '../../components';
-import { InvoiceBody, InvoiceContainer, InvoiceTab } from './Invoices.style';
+import { InvoiceBody, InvoiceContainer } from './Invoices.style';
 
 interface ApolloProps {
   invoices: Result<Invoice[]>;
@@ -129,47 +129,19 @@ export class InvoicesComponent extends React.Component<Props> {
                 newInvoice={!!newInvoice}
                 create={this.createInvoice}
               />
-              { (selectedInvoice || newInvoice) && 
-                <Tabs 
-                  value={tab} 
-                  onChange={(e, val) => this.props.setInvoiceTab(val)}
-                  indicatorColor="primary"
-                  fullWidth={true}
-                  centered={true}
-                  className="no-print"
-                >
-                  <InvoiceTab value="hours" label="Hours"/>
-                  <InvoiceTab value="invoice" label="Invoice"/>
-                </Tabs>
+              {selectedInvoice && <SelectedInvoice
+                tab={tab}
+                selectedInvoice={selectedInvoice}
+                setInvoiceTab={this.props.setInvoiceTab}
+              />}
+              {newInvoice && <NewInvoice
+                tab={tab}
+                newInvoice={newInvoice}
+                setInvoiceTab={this.props.setInvoiceTab}
+              />}
+              {!selectedInvoice && !newInvoice &&
+                <NoInvoice invoices={invoices} />
               }
-              {tab === 'hours' && selectedInvoice &&  <InvoiceTable invoice={selectedInvoice}/>}
-              {tab === 'invoice' && selectedInvoice && <InvoiceDocument invoice={selectedInvoice}/>}
-
-              { tab === 'hours' &&
-                newInvoice && !newInvoice.loading &&
-                <InvoiceTable invoice={newInvoice.data}/>
-              }
-              { tab === 'invoice' &&
-                newInvoice && !newInvoice.loading &&
-                <InvoiceDocument invoice={newInvoice.data}/>
-              }
-
-              <p>{!invoices.loading && !selectedInvoice ? 
-                  'Total Hours: ' + invoices.data.reduce((a, b) => a + b.hours, 0) : 
-                  null
-                }
-              </p>
-              <p>{!invoices.loading && !selectedInvoice ? 
-                  'Total Pay: $' + invoices.data.reduce((a, b) => a + (b.hours * b.rate ) , 0) : 
-                  null
-                }
-              </p>
-              <p>{!invoices.loading && !selectedInvoice ? 
-                  'Total in taxes: $' + (invoices.data.reduce((a, b) => a + (b.hours * b.rate ) , 0)) * .25 : 
-                  null
-                }
-              </p>
-
             </InvoiceBody>
           )}
         </MediaQuery>
@@ -252,7 +224,7 @@ const getLogsByDate = graphql<Response, Props>(GET_LOGS_BY_DATE, {
           data: {
             date: ownProps.end,
             rate: 25,
-            hours: allLogsByDates.logs.map(l => l.duration).reduce((a, b) => a + b),
+            hours: allLogsByDates.logs.map(l => l.duration).reduce((a, b) => a + b, 0),
             logs: allLogsByDates.logs
           }
         }
