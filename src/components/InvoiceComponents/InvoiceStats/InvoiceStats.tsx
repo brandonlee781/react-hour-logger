@@ -13,7 +13,7 @@ import {
   Legend,
   // ReferenceLine
 } from 'recharts';
-import { Invoice, Log } from '../../../constants/types';
+import { Invoice, Log, LogProject } from '../../../constants/types';
 
 interface Props {
   invoice: Invoice;
@@ -25,17 +25,17 @@ interface Args extends Label {
   hours: number;
 }
 
-const colors = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
-
 export const InvoiceStats = (props: Props) => {
-  const projects: string[] = _.uniq(props.invoice.logs.map(l => l.project.name));
+  const projects: Partial<LogProject>[] = 
+    _.uniqBy(props.invoice.logs.map(l => ({name: l.project.name, color: l.project.color})), 'name');
   const dates: string[] = _.uniq(props.invoice.logs.map(l => l.date)).sort();
 
   const perProject = projects.map(p => {
     return {
-      name: p,
+      name: p.name,
+      color: p.color,
       hours: props.invoice.logs
-        .filter(l => l.project.name === p)
+        .filter(l => l.project.name === p.name)
         .reduce((a: number, b: Log) => a + b.duration, 0)
     };
   });
@@ -47,14 +47,14 @@ export const InvoiceStats = (props: Props) => {
         .reduce((a: number, b: Log) => a + b.duration, 0),
     };
     projects.forEach(p => {
-      if (obj[p]) {
-        obj[p] += props.invoice.logs
-          .filter(l => l.project.name === p)
+      if (obj[p.name]) {
+        obj[p.name] += props.invoice.logs
+          .filter(l => l.project.name === p.name)
           .filter(l => l.date === d)
           .reduce((a: number, b: Log) => a + b.duration, 0);
       } else {
-        obj[p] = props.invoice.logs
-          .filter(l => l.project.name === p)
+        obj[p.name] = props.invoice.logs
+          .filter(l => l.project.name === p.name)
           .filter(l => l.date === d)
           .reduce((a: number, b: Log) => a + b.duration, 0);
       }
@@ -75,7 +75,7 @@ export const InvoiceStats = (props: Props) => {
           label={({...args}: Args) => `${args.name}: ${args.hours} hours`}
         >
           {perProject.map((project, index) => (
-            <Cell key={`cell-${index}`} fill={colors()}/>
+            <Cell key={`cell-${index}`} fill={project.color}/>
           ))
           }
         </Pie>
@@ -98,7 +98,7 @@ export const InvoiceStats = (props: Props) => {
         /> */}
         <Line type="monotone" dataKey="hours" stroke="#2196f3"/>
         {projects.map((proj, ind) => (
-          <Line key={ind} type="monotone" dataKey={proj} stroke={colors()}/>
+          <Line key={ind} type="monotone" dataKey={proj.name} stroke={proj.color}/>
         ))}
       </LineChart>
     </div>

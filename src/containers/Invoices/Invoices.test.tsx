@@ -24,7 +24,8 @@ const setup = (override?: {}) => {
             duration: 4,
             project: {
               id: 'fakeproject',
-              name: 'fakeproject.com'
+              name: 'fakeproject.com',
+              color: '#2196F3'
             },
             note: 'this is a fake note',
           }],
@@ -56,7 +57,8 @@ const setup = (override?: {}) => {
           duration: 4,
           project: {
             id: 'fakeproject',
-            name: 'fakeproject.com'
+            name: 'fakeproject.com',
+            color: '#2196F3'
           },
           note: 'this is a fake note',
         }],

@@ -119,7 +119,8 @@ export const GET_ALL_INVOICE = gql`
           duration,
           project{
             id,
-            name
+            name,
+            color
           },
           note  
         }
@@ -148,7 +149,8 @@ export const GET_LOGS_BY_DATE = gql`
         duration,
         project{
           id,
-          name
+          name,
+          color
         },
         note
       }
@@ -185,7 +187,8 @@ export const CREATE_NEW_INVOICE = gql`
           duration,
           project{
             id,
-            name
+            name,
+            color
           },
           note  
         }

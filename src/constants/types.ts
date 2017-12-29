@@ -9,9 +9,10 @@ export interface Project {
   updatedAt: string;
 }
 
-interface LogProject {
+export interface LogProject {
   id: string;
   name: string;
+  color: string;
 }
 
 export interface Log {

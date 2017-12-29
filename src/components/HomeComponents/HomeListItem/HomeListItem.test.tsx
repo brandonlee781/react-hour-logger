@@ -10,7 +10,8 @@ const itemProps = {
   duration: 4,
   project: {
     id: 'test-id',
-    name: 'New Project'
+    name: 'New Project',
+    color: '#2196F3'
   },
   notes: 'New Notes'
 };
