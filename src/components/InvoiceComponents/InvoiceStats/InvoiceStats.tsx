@@ -11,7 +11,7 @@ import {
   XAxis,
   YAxis,
   Legend,
-  // ReferenceLine
+  ReferenceLine
 } from 'recharts';
 import { Invoice, Log, LogProject } from '../../../constants/types';
 import { StatsWrapper, PieWrapper } from './InvoiceStats.style';
@@ -21,10 +21,11 @@ interface Props {
 }
 
 interface PerProject {
-  name: string;
-  color: string;
+  name?: string;
+  date?: string;
+  color?: string;
   hours: number;
-  pay: number;
+  pay?: number;
 }
 
 export const InvoiceStats = (props: Props) => {
@@ -44,7 +45,7 @@ export const InvoiceStats = (props: Props) => {
       .reduce((a: number, b: Log) => a + b.duration, 0), 
     };
   });
-  const perDay = dates.map(d => {
+  const perDay: PerProject[] = dates.map(d => {
     const obj = {
       date: d,
       hours: props.invoice.logs
@@ -129,10 +130,10 @@ export const InvoiceStats = (props: Props) => {
         <YAxis/>
         <Tooltip/>
         <Legend/>
-        {/* <ReferenceLine 
-          y={Object.values(perDay).reduce((a, b: Args) => a + b.hours, 0) / invoices.length} 
+        <ReferenceLine 
+          y={perDay.reduce((a, b: PerProject & Label) => a + b.hours, 0) / perDay.length} 
           stroke="red" 
-        /> */}
+        />
         <Line type="monotone" dataKey="hours" stroke="#2196f3"/>
         {projects.map((proj, ind) => (
           <Line key={ind} type="monotone" dataKey={proj.name} stroke={proj.color}/>

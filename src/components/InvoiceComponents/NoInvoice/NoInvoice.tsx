@@ -21,13 +21,11 @@ export const NoInvoice = (props: Props) => {
   let invoices: Invoice[] = [];
   let perProject: PerProject[];
   if (!props.invoices.loading) {
-    
+
     const projects: Partial<LogProject & { rate: number }>[] = _.uniqBy(
-      props.invoices.data.map(inv => {
-        return inv.logs.map(l => ({ name: l.project.name, color: l.project.color, rate: inv.rate }))
-      })[0],
+      _.flatMap(props.invoices.data, inv => inv.logs.map(l => ({ name: l.project.name, color: l.project.color, rate: inv.rate }))),
       'name'
-    );
+    )
     const allLogs = _.flatMap(props.invoices.data, (inv) => inv.logs);
 
     perProject = projects.map(p => {
