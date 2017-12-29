@@ -108,7 +108,8 @@ export class InvoicesComponent extends React.Component<Props> {
   }
 
   render() {
-    const { links, tab, selectedInvoice, newInvoice } = this.props;
+    const { links, tab, selectedInvoice, newInvoice, invoices } = this.props;
+    console.log(invoices);
     return (
       <InvoiceContainer>
         <NavDrawer
@@ -153,6 +154,19 @@ export class InvoicesComponent extends React.Component<Props> {
                 newInvoice && !newInvoice.loading &&
                 <InvoiceDocument invoice={newInvoice.data}/>
               }
+
+              <p>Total Hours: {!invoices.loading ? invoices.data.reduce((a, b) => a + b.hours, 0) : null}</p>
+              <p>Total Pay: ${!invoices.loading ? 
+                  invoices.data.reduce((a, b) => a + (b.hours * b.rate ) , 0) : 
+                  null
+                }
+              </p>
+              <p>Total in taxes: ${!invoices.loading ? 
+                  (invoices.data.reduce((a, b) => a + (b.hours * b.rate ) , 0)) * .25 : 
+                  null
+                }
+              </p>
+
             </InvoiceBody>
           )}
         </MediaQuery>
