@@ -155,13 +155,17 @@ export class InvoicesComponent extends React.Component<Props> {
                 <InvoiceDocument invoice={newInvoice.data}/>
               }
 
-              <p>Total Hours: {!invoices.loading ? invoices.data.reduce((a, b) => a + b.hours, 0) : null}</p>
-              <p>Total Pay: ${!invoices.loading ? 
+              <p>Total Hours: {!invoices.loading && !selectedInvoice ? 
+                  invoices.data.reduce((a, b) => a + b.hours, 0) : 
+                  null
+                }
+              </p>
+              <p>Total Pay: ${!invoices.loading && !selectedInvoice ? 
                   invoices.data.reduce((a, b) => a + (b.hours * b.rate ) , 0) : 
                   null
                 }
               </p>
-              <p>Total in taxes: ${!invoices.loading ? 
+              <p>Total in taxes: ${!invoices.loading && !selectedInvoice ? 
                   (invoices.data.reduce((a, b) => a + (b.hours * b.rate ) , 0)) * .25 : 
                   null
                 }
