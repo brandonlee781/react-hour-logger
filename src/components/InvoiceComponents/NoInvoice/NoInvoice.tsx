@@ -1,6 +1,6 @@
 // tslint:disable
 import * as React from 'react';
-import { PieChart, Pie, Label, Cell, LineChart, XAxis, YAxis, Line, Tooltip } from 'recharts';
+import { PieChart, Pie, Label, Cell, LineChart, XAxis, YAxis, Line, Tooltip, ReferenceLine } from 'recharts';
 import { LoadingSpinner } from '../../SharedComponents/LoadingSpinner';
 import { NoInvoiceWrapper, TotalsWrapper } from './NoInvoice.style';
 
@@ -18,9 +18,10 @@ const colors = () => '#'+Math.floor(Math.random()*16777215).toString(16);
 
 export const NoInvoice = (props: Props) => {
   const perProject = {};
-  const invoices: Invoice[] = [];
+  let invoices: Invoice[] = [];
   if (!props.invoices.loading) {
     props.invoices.data.forEach(inv => invoices.unshift(inv));
+    invoices = invoices.filter(i => i.date !== '1970-01-01');
     props.invoices.data.forEach(inv => {
       inv.logs.forEach(log => {
         if (perProject[log.project.name]) {
@@ -64,12 +65,17 @@ export const NoInvoice = (props: Props) => {
             <XAxis dataKey="date"/>
             <YAxis/>
             <Tooltip/>
+            <ReferenceLine 
+              y={invoices.reduce((a, b) => a + b.hours, 0) / invoices.length} 
+              stroke="red" 
+            />
             <Line type="monotone" dataKey="hours" stroke="#2196f3"/>
           </LineChart>
           <TotalsWrapper>
             <span>Total Hours: {invoices.reduce((a, b) => a + b.hours, 0)} </span>
+            <span>Average Hours Per Week: {invoices.reduce((a, b) => a + b.hours, 0) / invoices.length} </span>
             <span>Total Pay: ${invoices.reduce((a, b) => a + (b.hours * b.rate ) , 0)} </span>
-            <span>Total in taxes: ${(invoices.reduce((a, b) => a + (b.hours * b.rate ) , 0)) * .25} </span>
+            <span>Total to set aside for taxes: ${(invoices.reduce((a, b) => a + (b.hours * b.rate ) , 0)) * .25} </span>
           </TotalsWrapper>
         </NoInvoiceWrapper>
       }

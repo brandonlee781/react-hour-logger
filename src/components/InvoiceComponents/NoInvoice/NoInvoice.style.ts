@@ -10,7 +10,7 @@ export const NoInvoiceWrapper = styled.div`
 
 export const TotalsWrapper = styled.div`
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: space-between;
   width: 80%;
   margin: 0 auto;
