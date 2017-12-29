@@ -109,7 +109,6 @@ export class InvoicesComponent extends React.Component<Props> {
 
   render() {
     const { links, tab, selectedInvoice, newInvoice, invoices } = this.props;
-    console.log(invoices);
     return (
       <InvoiceContainer>
         <NavDrawer
