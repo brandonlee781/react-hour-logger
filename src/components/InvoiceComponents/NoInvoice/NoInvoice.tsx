@@ -54,6 +54,7 @@ export const NoInvoice = (props: Props) => {
               ))
               }
             </Pie>
+            <Tooltip/>
           </PieChart>
           <h2>Total Hours Invoiced Per Week</h2>
           <LineChart 

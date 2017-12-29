@@ -4,6 +4,7 @@ import { InvoiceTab } from './SelectedInvoice.style';
 
 import { InvoiceTable } from '../InvoiceTable';
 import { InvoiceDocument } from '../InvoiceDocument';
+import { InvoiceStats } from '../InvoiceStats';
 
 import { Invoice } from '../../../constants/types';
 
@@ -25,9 +26,11 @@ export const SelectedInvoice = (props: Props) => (
     >
       <InvoiceTab value="hours" label="Hours"/>
       <InvoiceTab value="invoice" label="Invoice"/>
+      <InvoiceTab value="stats" label="stats"/>
     </Tabs>
   
     {props.tab === 'hours' && <InvoiceTable invoice={props.selectedInvoice}/>}
     {props.tab === 'invoice' && <InvoiceDocument invoice={props.selectedInvoice}/>}
+    {props.tab === 'stats' && <InvoiceStats invoice={props.selectedInvoice}/>}
   </div>
 );
