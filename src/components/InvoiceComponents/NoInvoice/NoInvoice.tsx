@@ -73,7 +73,7 @@ export const NoInvoice = (props: Props) => {
           </LineChart>
           <TotalsWrapper>
             <span>Total Hours: {invoices.reduce((a, b) => a + b.hours, 0)} </span>
-            <span>Average Hours Per Week: {invoices.reduce((a, b) => a + b.hours, 0) / invoices.length} </span>
+            <span>Average Hours Per Week: {(invoices.reduce((a, b) => a + b.hours, 0) / invoices.length).toFixed(2)} </span>
             <span>Total Pay: ${invoices.reduce((a, b) => a + (b.hours * b.rate ) , 0)} </span>
             <span>Total to set aside for taxes: ${(invoices.reduce((a, b) => a + (b.hours * b.rate ) , 0)) * .25} </span>
           </TotalsWrapper>
