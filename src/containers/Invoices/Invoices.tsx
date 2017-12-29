@@ -33,7 +33,7 @@ import {
   InvoiceNewForm, 
   SelectedInvoice,
   NewInvoice,
-  InvoiceStats,
+  NoInvoice,
 } from '../../components';
 import { InvoiceBody, InvoiceContainer } from './Invoices.style';
 
@@ -140,7 +140,7 @@ export class InvoicesComponent extends React.Component<Props> {
                 setInvoiceTab={this.props.setInvoiceTab}
               />}
               {!selectedInvoice && !newInvoice &&
-                <InvoiceStats data={invoices.data} loading={invoices.loading}/>
+                <NoInvoice invoices={invoices}/>
               }
             </InvoiceBody>
           )}

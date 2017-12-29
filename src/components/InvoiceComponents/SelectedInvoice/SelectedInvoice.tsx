@@ -31,6 +31,6 @@ export const SelectedInvoice = (props: Props) => (
   
     {props.tab === 'hours' && <InvoiceTable invoice={props.selectedInvoice}/>}
     {props.tab === 'invoice' && <InvoiceDocument invoice={props.selectedInvoice}/>}
-    {props.tab === 'stats' && <InvoiceStats data={props.selectedInvoice} loading={false}/>}
+    {props.tab === 'stats' && <InvoiceStats invoice={props.selectedInvoice}/>}
   </div>
 );
