@@ -14,6 +14,7 @@ import {
   // ReferenceLine
 } from 'recharts';
 import { Invoice, Log, LogProject } from '../../../constants/types';
+import { StatsWrapper } from './InvoiceStats.style';
 
 interface Props {
   invoice: Invoice;
@@ -63,9 +64,9 @@ export const InvoiceStats = (props: Props) => {
   });
 
   return (
-    <div>
+    <StatsWrapper>
       <h2>Total Hours per Project</h2>
-      <PieChart height={400} width={window.innerWidth - 503}>
+      <PieChart height={(window.innerHeight - 350) / 2} width={window.innerWidth - 503}>
         <Pie 
           data={perProject} 
           dataKey="hours" 
@@ -84,7 +85,7 @@ export const InvoiceStats = (props: Props) => {
       <h2>Total Hours Invoiced Per Day of the Week</h2>
       <LineChart 
         data={perDay}
-        height={400} 
+        height={(window.innerHeight - 350) / 2} 
         width={window.innerWidth - 600} 
         margin={{ top: 5, right: 40, left: 20, bottom: 5 }}
       >
@@ -101,6 +102,6 @@ export const InvoiceStats = (props: Props) => {
           <Line key={ind} type="monotone" dataKey={proj.name} stroke={proj.color}/>
         ))}
       </LineChart>
-    </div>
+    </StatsWrapper>
   );
 };

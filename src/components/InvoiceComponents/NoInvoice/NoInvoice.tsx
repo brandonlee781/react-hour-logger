@@ -40,7 +40,7 @@ export const NoInvoice = (props: Props) => {
       {!props.invoices.loading && 
         <NoInvoiceWrapper>
           <h2>Total Hours Invoiced Per Project</h2>
-          <PieChart height={400} width={window.innerWidth - 503}>
+          <PieChart height={(window.innerHeight - 350) / 2} width={window.innerWidth - 503}>
             <Pie 
               data={Object.values(perProject)} 
               dataKey="hours" 
@@ -59,7 +59,7 @@ export const NoInvoice = (props: Props) => {
           <h2>Total Hours Invoiced Per Week</h2>
           <LineChart 
             data={invoices}
-            height={400} 
+            height={(window.innerHeight - 350) / 2} 
             width={window.innerWidth - 600} 
             margin={{ top: 5, right: 40, left: 20, bottom: 5 }}
           >
