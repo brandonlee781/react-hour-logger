@@ -15,7 +15,6 @@ export { InvoiceNewForm } from './InvoiceComponents/InvoiceNewForm';
 export { InvoiceStats } from './InvoiceComponents/InvoiceStats';
 export { SelectedInvoice } from './InvoiceComponents/SelectedInvoice';
 export { NewInvoice } from './InvoiceComponents/NewInvoice';
-export { NoInvoice } from './InvoiceComponents/NoInvoice';
 
 // Project Components
 
