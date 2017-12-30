@@ -14,7 +14,7 @@ import {
   ReferenceLine
 } from 'recharts';
 import { Invoice, Log, LogProject } from '../../../constants/types';
-import { StatsWrapper, PieWrapper } from './InvoiceStats.style';
+import { StatsWrapper, PieWrapper, TotalsWrapper } from './InvoiceStats.style';
 
 interface Props {
   invoice: Invoice;
@@ -74,7 +74,7 @@ export const InvoiceStats = (props: Props) => {
         <PieWrapper>
           <h2>Total Hours per Project</h2>
           <PieChart 
-            height={(window.innerHeight - 350) / 2}  
+            height={(window.innerHeight - 400) / 2}  
             width={(window.innerWidth - 600) / 2}
           >
             <Pie 
@@ -97,7 +97,7 @@ export const InvoiceStats = (props: Props) => {
         <PieWrapper>
           <h2>Total Dollars per Project</h2>
           <PieChart 
-            height={(window.innerHeight - 350) / 2} 
+            height={(window.innerHeight - 400) / 2} 
             width={(window.innerWidth - 600) / 2}
           >
             <Pie 
@@ -122,7 +122,7 @@ export const InvoiceStats = (props: Props) => {
       <h2>Total Hours Invoiced Per Day of the Week</h2>
       <LineChart 
         data={perDay}
-        height={(window.innerHeight - 350) / 2} 
+        height={(window.innerHeight - 400) / 2} 
         width={window.innerWidth - 600} 
         margin={{ top: 5, right: 40, left: 20, bottom: 5 }}
       >
@@ -139,6 +139,12 @@ export const InvoiceStats = (props: Props) => {
           <Line key={ind} type="monotone" dataKey={proj.name} stroke={proj.color}/>
         ))}
       </LineChart>
+      <TotalsWrapper>
+        <span>Total Hours: {props.invoice.hours} </span>
+        <span>Average Hours Per Day: {(props.invoice.hours / perDay.length).toFixed(2)} </span>
+        <span>Total Pay: ${props.invoice.hours * props.invoice.rate} </span>
+        <span>Total to set aside for taxes: ${(props.invoice.hours * props.invoice.rate) * .25} </span>
+      </TotalsWrapper>
     </StatsWrapper>
   );
 };
