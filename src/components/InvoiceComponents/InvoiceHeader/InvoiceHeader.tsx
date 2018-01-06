@@ -7,7 +7,7 @@ export interface Props {
   invoices?: Result<Invoice[]>;
   links?: Result<Link[]>;
   selectedInvoice?: Invoice;
-  newInvoice: boolean;
+  newInvoice: Result<Invoice>;
   tab?: string;
   downloadCsv?: (invoice: Invoice) => void;
   toggleNewInvoiceForm?: () => void;
@@ -23,6 +23,27 @@ export const InvoiceHeader = (props: Props) => (
       }
     </InvoiceTitle>
     <div>
+      { (props.selectedInvoice || !!props.newInvoice) && props.tab === 'hours' &&
+        <InvoiceIconButton
+          id="downloadCsvButton"
+          onClick={() => props.downloadCsv(
+            props.newInvoice.data || 
+            props.invoices.data.filter(i => i.id === props.selectedInvoice.id)[0]
+          )}
+        >
+          <FileDownload/>
+        </InvoiceIconButton>
+      }
+
+      { props.selectedInvoice && props.tab === 'invoice' &&
+        <InvoiceIconButton
+          id="printPdfButton"
+          onClick={() => window.print()}
+        >
+          <Print/>
+        </InvoiceIconButton>
+      }
+
       { !props.selectedInvoice && 
         <InvoiceIconButton
           id="toggleInvoiceFormButton"
@@ -31,7 +52,8 @@ export const InvoiceHeader = (props: Props) => (
           <FilterList/>
         </InvoiceIconButton>
       }
-      { !props.selectedInvoice && props.newInvoice &&
+
+      { !props.selectedInvoice && !!props.newInvoice &&
         <InvoiceIconButton
           id="saveInvoiceButton"
           color="primary"
@@ -41,21 +63,5 @@ export const InvoiceHeader = (props: Props) => (
         </InvoiceIconButton>
       }
     </div>
-    { props.selectedInvoice && props.tab === 'hours' &&
-      <InvoiceIconButton
-        id="downloadCsvButton"
-        onClick={() => props.downloadCsv(props.invoices.data.filter(i => i.id === props.selectedInvoice.id)[0])}
-      >
-        <FileDownload/>
-      </InvoiceIconButton>
-    }
-    { props.selectedInvoice && props.tab === 'invoice' &&
-      <InvoiceIconButton
-        id="printPdfButton"
-        onClick={() => window.print()}
-      >
-        <Print/>
-      </InvoiceIconButton>
-    }
   </InvoiceHeaderWrapper>
 );

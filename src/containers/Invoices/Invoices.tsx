@@ -131,7 +131,7 @@ export class InvoicesComponent extends React.Component<Props> {
                 {...this.props}
                 downloadCsv={this.downloadCsv}
                 toggleNewInvoiceForm={this.props.toggleNewInvoiceForm}
-                newInvoice={!!newInvoice}
+                newInvoice={newInvoice}
                 create={this.createInvoice}
               />
               {selectedInvoice && <SelectedInvoice
