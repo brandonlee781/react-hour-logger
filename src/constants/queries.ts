@@ -130,11 +130,12 @@ export const GET_ALL_INVOICE = gql`
 `;
 
 export const GET_LOGS_BY_DATE = gql`
-  query GetAllLogsByDate($start: String, $end: String, $limit: Int, $offset: Int){
+  query GetAllLogsByDate($start: String, $end: String, $project: String, $limit: Int, $offset: Int){
     allLogsByDates(
       input:{
         start: $start,
-        end: $end
+        end: $end,
+        project: $project
       },
       options: {
         limit: $limit,

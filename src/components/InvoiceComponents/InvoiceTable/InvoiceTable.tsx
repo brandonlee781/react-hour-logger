@@ -77,7 +77,7 @@ export const InvoiceTable = (props: Props) => (
         }
       ]}
       className="-striped -highlight"
-      defaultPageSize={30}
+      defaultPageSize={100}
       style={{width: '100%', height: 'calc(100vh - 190px)'}}
       showPaginationBottom={false}
       multiSort={true}

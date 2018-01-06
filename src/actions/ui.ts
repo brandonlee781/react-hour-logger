@@ -49,7 +49,7 @@ export function setInvoiceTab(tab: string): ActionType<string> {
   };
 }
 
-export type FilterKey = 'start' | 'end';
+export type FilterKey = 'start' | 'end' | 'project';
 
 export function setInvoiceFilter(key: FilterKey, date: string): ActionType<{}> {
   return {

@@ -43,6 +43,11 @@ const setup = (override?: {}) => {
         error: null,
         loading: false,
       },
+      projects: {
+        data: [],
+        error: null,
+        loading: false
+      },
       selectedInvoice: {
         id: 'fakeinvoice',
         number: 1,
@@ -70,6 +75,7 @@ const setup = (override?: {}) => {
       tab: 'hours',
       start: '',
       end: '',
+      project: '',
       changeInvoiceSelected: () => null,
       setInvoiceTab: () => null,
       setInvoiceFilter: () => null,

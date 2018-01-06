@@ -21,6 +21,7 @@ const iState: UIStateType = {
     tab: 'hours',
     start: '',
     end: '',
+    project: ''
   }
 };
 

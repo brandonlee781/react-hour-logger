@@ -10,12 +10,14 @@ import {
   Invoice, 
   Link, 
   StoreStateType, 
-  Log, 
+  Log,
+  Project,
   Result, 
   GET_ALL_INVOICE, 
   GET_LOGS_BY_DATE, 
   CREATE_NEW_INVOICE,
-  QUERY_LIMIT,
+  // QUERY_LIMIT,
+  GET_ALL_PROJECTS,
 } from '../../constants';
 
 import { 
@@ -40,6 +42,7 @@ import { InvoiceBody, InvoiceContainer } from './Invoices.style';
 interface ApolloProps {
   invoices: Result<Invoice[]>;
   links: Result<Link[]>;
+  projects: Result<Project[]>;
   selectedInvoice: Invoice;
   newInvoice: Result<Invoice>;
   createNewInvoice: (newInvoice: Partial<Invoice>) => void;
@@ -52,6 +55,7 @@ interface ReduxProps {
   tab: string;
   start: string;
   end: string;
+  project: string;
 }
 const mapStateToProps = (state: StoreStateType): ReduxProps => {
   return {
@@ -61,6 +65,7 @@ const mapStateToProps = (state: StoreStateType): ReduxProps => {
     tab: state.ui.invoice.tab,
     start: state.ui.invoice.start,
     end: state.ui.invoice.end,
+    project: state.ui.invoice.project
   };
 };
 
@@ -108,7 +113,7 @@ export class InvoicesComponent extends React.Component<Props> {
   }
 
   render() {
-    const { links, tab, selectedInvoice, newInvoice, invoices } = this.props;
+    const { links, tab, selectedInvoice, newInvoice, invoices, projects } = this.props;
     return (
       <InvoiceContainer>
         <NavDrawer
@@ -118,7 +123,7 @@ export class InvoicesComponent extends React.Component<Props> {
           linksLoading={links.loading}
           changeSelected={this.props.changeInvoiceSelected}
         />
-        <InvoiceNewForm {...this.props}/>
+        {!projects.loading && <InvoiceNewForm {...this.props}/>}
         <MediaQuery minWidth={960}>
           {(match) => (
             <InvoiceBody mobile={match}>
@@ -156,6 +161,9 @@ interface Response {
   };
   allLogsByDates?: {
     logs: Log[]
+  };
+  allProjects?: {
+    projects: Project[];
   };
 }
 export const invoiceRedux = connect(mapStateToProps, mapDispatchToProps);
@@ -203,13 +211,33 @@ const getInvoices = graphql<Response, Props>(GET_ALL_INVOICE, {
     }
   }
 });
+const getProjects = graphql<Response, Props>(GET_ALL_PROJECTS, {
+  props: ({ ownProps, data: { loading, error, allProjects } }) => {
+    if (!loading) {
+      return {
+        projects: {
+          error,
+          loading,
+          data: allProjects.projects
+        }
+      };
+    } else {
+      return {
+        projects: {
+          loading
+        }
+      };
+    }
+  }
+});
 const getLogsByDate = graphql<Response, Props>(GET_LOGS_BY_DATE, {
-  options: ({ start, end }) => {
+  options: ({ start, end, project }) => {
     return {
       variables: {
         start,
         end,
-        limit: QUERY_LIMIT,
+        project,
+        limit: 100,
         offset: 0
       }
     };
@@ -274,4 +302,5 @@ export const Invoices = compose(
   createInvoiceMutation,
   getLogsByDate,
   getInvoices,
+  getProjects
 )(InvoicesComponent);

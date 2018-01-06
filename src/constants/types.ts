@@ -72,6 +72,7 @@ interface UIState {
     newInvoiceFormShown: boolean;
     start: string;
     end: string;
+    project: string;
   };
 }
 export type UIStateType = UIState;
