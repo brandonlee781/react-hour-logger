@@ -56,7 +56,8 @@ export const InvoiceNewForm = (props: Props) => (
             id="start-input"
             value={moment(props.start, 'YYYY-MM-DD')}
             fullWidth={true}
-            invalidLabel={''}
+            invalidLabel=""
+            autoOk={true}
             onChange={(date: moment.Moment) => props.setInvoiceFilter('start', date.format('YYYY-MM-DD'))}
             style={{ marginTop: '16px' }}
           />
@@ -69,7 +70,8 @@ export const InvoiceNewForm = (props: Props) => (
             id="end-input"
             value={moment(props.end, 'YYYY-MM-DD')}
             fullWidth={true}
-            invalidLabel={''}
+            invalidLabel=""
+            autoOk={true}
             onChange={(date: moment.Moment) => props.setInvoiceFilter('end', date.format('YYYY-MM-DD'))}
             style={{ marginTop: '16px' }}
           />
