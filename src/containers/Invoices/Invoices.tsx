@@ -139,7 +139,7 @@ export class InvoicesComponent extends React.Component<Props> {
                 selectedInvoice={selectedInvoice}
                 setInvoiceTab={this.props.setInvoiceTab}
               />}
-              {newInvoice && <NewInvoice
+              {newInvoice && !selectedInvoice && <NewInvoice
                 tab={tab}
                 newInvoice={newInvoice}
                 setInvoiceTab={this.props.setInvoiceTab}
