@@ -21,7 +21,7 @@ export interface Props {
 export const InvoiceNewForm = (props: Props) => (
   <Popover
     open={props.newInvoiceFormShown}
-    anchorPosition={{ top: 0, left: (window.innerWidth - 500) }}
+    anchorPosition={{ top: 0, left: (window.innerWidth - 400) }}
     anchorReference="anchorPosition"
   >
     <MenuHeading>
