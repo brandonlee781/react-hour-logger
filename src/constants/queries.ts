@@ -40,7 +40,8 @@ export const GET_HOME_LOGS = gql`
         duration,
         project{
           id,
-          name
+          name,
+          color
         },
         note
       }

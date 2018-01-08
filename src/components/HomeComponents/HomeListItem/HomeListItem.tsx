@@ -29,7 +29,7 @@ export const HomeListItem = (props: HomeListItemProps) => (
       <LogNote>{props.note}</LogNote>
       <LogDetail>
         <div>
-          <FolderOpen/>
+          <FolderOpen style={{ color: props.project.color}}/>
           <span>{props.project.name}</span>
         </div>
         <div>

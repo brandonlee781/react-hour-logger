@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import Drawer from 'material-ui/Drawer';
+import styled from 'styled-components';
+
 import { colors, sideNavWidth } from '../../../assets/styleVariables';
 
 // tslint:disable-next-line:no-any

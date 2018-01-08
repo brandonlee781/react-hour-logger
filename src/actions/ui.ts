@@ -9,6 +9,7 @@ export const SET_INVOICE_FILTER = 'SET_INVOICE_FILTER';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 export const TOGGLE_NEW_LOG_FORM = 'TOGGLE_NEW_LOG_FORM';
 export const TOGGLE_NEW_INVOICE_FORM = 'TOGGLE_NEW_INVOICE_FORM';
+export const TOGGLE_CONTENT = 'TOGGLE_CONTENT';
 
 export function setHomeDrawerSelected(id: string): ActionType<string> {
   return {
@@ -55,6 +56,12 @@ export function setInvoiceFilter(key: FilterKey, date: string): ActionType<{}> {
   return {
     type: SET_INVOICE_FILTER,
     payload: { key, date }
+  };
+}
+
+export function toggleContent(): ActionType<string> {
+  return {
+    type: TOGGLE_CONTENT,
   };
 }
 

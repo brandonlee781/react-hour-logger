@@ -5,6 +5,12 @@ export { SideNav } from './AppComponents/SideNav';
 export { HomeList } from './HomeComponents/HomeList';
 export { HomeListItem } from './HomeComponents/HomeListItem';
 export { HomeListItemNew } from './HomeComponents/HomeListItemNew';
+export { HomeNavHeader } from './HomeComponents/HomeNavHeader';
+
+// Home Calendar Components
+export { HomeCalToolbar } from './HomeComponents/HomeCalToolbar';
+export { HomeCalEvent } from './HomeComponents/HomeCalEvent';
+export { HomeCalMonthEvent } from './HomeComponents/HomeCalMonthEvent';
 
 // Invoice Components
 export { InvoiceHeader } from './InvoiceComponents/InvoiceHeader';

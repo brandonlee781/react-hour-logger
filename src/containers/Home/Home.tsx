@@ -5,9 +5,21 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Dispatch } from 'redux';
 import { RouterProps } from 'react-router';
+import BigCalendar from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import './home-cal.css';
+BigCalendar.momentLocalizer(moment);
 
 import { changeHomeSelected, toggleNewLogForm } from '../../actions';
-import { HomeList, HomeListItemNew, NavDrawer } from '../../components';
+import { 
+  HomeList, 
+  HomeListItemNew, 
+  NavDrawer, 
+  HomeNavHeader,
+  HomeCalToolbar,
+  HomeCalEvent,
+  HomeCalMonthEvent,
+} from '../../components';
 import { 
   Link, 
   Log, 
@@ -39,12 +51,14 @@ interface ReduxProps {
   drawerOpen?: boolean;
   newLogFormShown?: boolean;
   selected?: string;
+  list?: boolean;
 }
 const mapStateToProps = (state: StoreStateType): ReduxProps => {
   return {
     drawerOpen: state.ui.drawerOpen,
     newLogFormShown: state.ui.home.newLogFormShown,
-    selected: state.ui.home.selected
+    selected: state.ui.home.selected,
+    list: state.ui.home.list,
   };
 };
 
@@ -71,7 +85,7 @@ class HomeComponent extends React.PureComponent<Props> {
     return (
       <HomeContainer>
         <NavDrawer 
-          header="Log Entries" 
+          header={<HomeNavHeader title="Log Entries"/>}
           drawerOpen={this.props.drawerOpen}
           links={this.props.links.items}
           linksLoading={this.props.links.loading}
@@ -96,12 +110,40 @@ class HomeComponent extends React.PureComponent<Props> {
                   createNewLog={this.props.createNewLog}
                 />
               </HomeBodyHeader>
-              <HomeList
-                loading={this.props.logs.loading}
-                logs={this.props.logs.items}
-                getMoreLogs={this.props.logs.fetchMore}
-                deleteLog={this.checkDeleteLog}
-              />
+              {this.props.list ?
+                <HomeList
+                  loading={this.props.logs.loading}
+                  logs={this.props.logs.items}
+                  getMoreLogs={this.props.logs.fetchMore}
+                  deleteLog={this.checkDeleteLog}
+                /> :
+                <BigCalendar
+                  events={this.props.logs.items}
+                  selectable={true}
+                  showMultiDayTimes={true}
+                  titleAccessor={(e) => e.project.name}
+                  allDayAccessor={(e) => false}
+                  startAccessor={(e) => new Date(e.date + ' ' + e.startTime)}
+                  endAccessor={(e) => new Date(e.date + ' ' + e.endTime)}
+                  formats={{ dateFormat: 'D', dayFormat: 'ddd M/D' }}
+                  components={{
+                    toolbar: HomeCalToolbar,
+                    month: {
+                      event: HomeCalMonthEvent,
+                    },
+                    week: {
+                      event: HomeCalEvent,
+                    },
+                    day: {
+                      event: HomeCalEvent,
+                    },
+                    agenda: {
+                      // tslint:disable-next-line:no-any
+                      event: (prop: any) => <div><strong>{prop.event.project.name}:</strong> {prop.event.note}</div>,
+                    },
+                  }}
+                />
+              }
             </HomeBody>
           )}
           </MediaQuery>

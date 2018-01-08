@@ -21,6 +21,7 @@
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-apollo": "^2.0.1",
+    "react-big-calendar": "^0.17.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-responsive": "^4.0.0",

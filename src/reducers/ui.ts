@@ -7,13 +7,14 @@ import {
   SET_INVOICE_TAB,
 } from '../actions/ui';
 import { ActionType, UIStateType } from '../constants/types';
-import { TOGGLE_DRAWER, TOGGLE_NEW_LOG_FORM, TOGGLE_NEW_INVOICE_FORM } from '../actions/index';
+import { TOGGLE_DRAWER, TOGGLE_NEW_LOG_FORM, TOGGLE_NEW_INVOICE_FORM, TOGGLE_CONTENT } from '../actions/index';
 
 const iState: UIStateType = {
   drawerOpen: false,
   home: {
     selected: '',
     newLogFormShown: false,
+    list: true,
   },
   invoice: {
     selected: '',
@@ -38,6 +39,8 @@ export const uiReducer = (state = initialState, action: ActionType<any>): UIStat
       return state.updateIn(['home', 'newLogFormShown'], x => !x);
     case TOGGLE_NEW_INVOICE_FORM:
       return state.updateIn(['invoice', 'newInvoiceFormShown'], x => !x);
+    case TOGGLE_CONTENT:
+      return state.updateIn(['home', 'list'], x => !x);
     case SET_INVOICE_SELECTED:
       return state.setIn(['invoice', 'selected'], action.payload);
     case SET_INVOICE_TAB:

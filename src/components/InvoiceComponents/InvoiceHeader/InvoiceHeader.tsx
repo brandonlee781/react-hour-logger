@@ -26,10 +26,13 @@ export const InvoiceHeader = (props: Props) => (
       { (props.selectedInvoice || !!props.newInvoice) && props.tab === 'hours' &&
         <InvoiceIconButton
           id="downloadCsvButton"
-          onClick={() => props.downloadCsv(
-            props.newInvoice.data || 
-            props.invoices.data.filter(i => i.id === props.selectedInvoice.id)[0]
-          )}
+          onClick={() => {
+            if (props.newInvoice) {
+              props.downloadCsv(props.newInvoice.data);
+            } else {
+              props.downloadCsv(props.invoices.data.filter(i => i.id === props.selectedInvoice.id)[0]);
+            }
+          }}
         >
           <FileDownload/>
         </InvoiceIconButton>

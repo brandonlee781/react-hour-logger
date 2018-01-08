@@ -6,12 +6,13 @@ import MediaQuery from 'react-responsive';
 
 import { sideNavWidth } from '../../../assets/styleVariables';
 import { Link } from '../../../constants/types';
+import { LoadingSpinner } from '../LoadingSpinner';
 import { NavDrawerItem } from '../NavDrawerItem';
 import { BaseDrawer, DrawerHeader } from './NavDrawer.style';
-import { LoadingSpinner } from '../LoadingSpinner';
 
 export interface NavDrawerProps {
-  header: string;
+  // tslint:disable-next-line:no-any
+  header: JSX.Element | string;
   links: Link[];
   linksLoading: boolean;
   classes?: DrawerClasses; 
@@ -35,7 +36,7 @@ export const NavDrawerClass = (props: NavDrawerProps) => (
   <MediaQuery minWidth={960}>
     {(match) => (
     <BaseDrawer
-      type={match ? 'permanent' : 'persistant'}
+      type={match ? 'permanent' : 'persistent'}
       anchor="left"
       classes={{
         paperAnchorLeft: props.classes.paperAnchorLeft,

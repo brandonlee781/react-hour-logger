@@ -1,0 +1,55 @@
+.rbc-event {
+  padding: 0;
+  border: 1px solid #fff !important;
+  background-color: transparent;
+  color: #333;
+}
+.rbc-event-label {
+  display: none;
+}
+
+.rbc-date-cell {
+  padding-left: 8px;
+  padding-right: 0;
+  text-align: left;
+}
+.rbc-date-cell a {
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  height: 24px;
+  width: 24px !important;
+  margin-top: 6px; 
+  border-radius: 50%;
+}
+.rbc-date-cell.rbc-now a,
+.rbc-date-cell.rbc-current a {
+  padding: 2px;
+  margin-left: -2px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.rbc-date-cell.rbc-current a {
+  background-color: #e0e0e0;
+  color: #333;
+}
+.rbc-date-cell.rbc-now a {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.rbc-month-view .rbc-event {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  background-color: transparent;
+  color: #333;
+}
+
+.rbc-month-view .rbc-event.rbc-selected {
+  background-color: #fff;
+  -webkit-box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.2);
+  border-radius: 2px;
+}

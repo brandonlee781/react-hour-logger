@@ -65,6 +65,7 @@ interface UIState {
   home: {
     selected: string;
     newLogFormShown: boolean;
+    list: boolean;
   };
   invoice: {
     selected: string;

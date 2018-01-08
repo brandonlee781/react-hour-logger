@@ -14,7 +14,8 @@ interface HomeBodyProps {
 const bodyDiv: StyledFunction<HomeBodyProps & React.HTMLProps<HTMLInputElement>> = styled.div;
 
 export const HomeBody = bodyDiv`
-  width: 100%;
+  width: ${p => p.mobile ? 'calc(100vw - 504px)' : 'calc(100vw - 126px)'};
+  height: calc(100vh - 126px);
   margin-left: ${p => p.mobile ? '378px' : '0'};
 `;
 
