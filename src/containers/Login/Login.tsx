@@ -36,12 +36,13 @@ class LoginComponent extends React.Component<Props, State> {
 
   submitLogin = async (): Promise<void> => {
     console.log('submitted');
-    const res = await axios.post('https://www.branlee.me/api/login', {
+    const res = await axios.post('https://www.branlee.me/api/auth/token', {
       email: this.state.email,
       password: this.state.password
     });
     if (res.status === 200) {
-      storage.setItem('token', res.data.token);
+      console.log(storage);
+      storage.setItem('token', res.data.access_token);
       this.props.history.push('/');
     } else {
       this.setState({

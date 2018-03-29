@@ -31,7 +31,7 @@ export class SideNav extends React.Component<SideNavProps, {}> {
           component={(props: {}) => <SideNavLink 
             {...props} 
             exact={true} 
-            to="/work/" 
+            to="/" 
             activeClassName="nav-item-active"
           />}
         >
@@ -40,14 +40,14 @@ export class SideNav extends React.Component<SideNavProps, {}> {
         </SideNavButton>
 
         <SideNavButton 
-          component={(props: {}) => <SideNavLink {...props} to="/work/projects" activeClassName="nav-item-active"/>}
+          component={(props: {}) => <SideNavLink {...props} to="/projects" activeClassName="nav-item-active"/>}
         >
           <SideNavIcon>assignment</SideNavIcon>
           <SideNavLabel>Projects</SideNavLabel>
         </SideNavButton>
 
         <SideNavButton 
-          component={(props: {}) => <SideNavLink {...props} to="/work/invoices" activeClassName="nav-item-active"/>}
+          component={(props: {}) => <SideNavLink {...props} to="/invoices" activeClassName="nav-item-active"/>}
         >
           <SideNavIcon>receipt</SideNavIcon>
           <SideNavLabel>Invoices</SideNavLabel>

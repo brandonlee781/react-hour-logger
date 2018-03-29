@@ -99,7 +99,7 @@ export class InvoicesComponent extends React.Component<Props> {
     });
     const hiddenEl = document.createElement('a');
     hiddenEl.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-    hiddenEl.target = '_blank';
+    // hiddenEl.target = '_blank';
     hiddenEl.download = formattedDate + '_hours.csv';
     hiddenEl.click();
   }
